@@ -1,0 +1,64 @@
+---
+
+- name: 'Filetransfer Playbook'
+  hosts: targets
+  # connection: local
+  gather_facts: no
+  become: true
+  vars_files:
+  - variables.txt
+  tasks:
+  - name: 'get current date in dd_mm_yyyy format'
+    command: date '+%d_%m_%Y'
+    register: dt
+    tags: ft
+  - debug: var=dt # print the output in a json format
+    tags: ft
+  - debug: msg='{{ dt.stdout }}' # print the jsonQuery for specific value
+    tags: ft
+
+  - name: 'copy source files to current working folder'
+    copy:
+      src: '{{ src_folder_path }}'
+      dest: '{{ working_dir }}/current_{{ dt.stdout }}/'
+      follow: no
+      remote_src: false
+    tags: ft
+
+  - name: 'list file names in current working folder'
+    shell: "ls -lrt {{ working_dir }}/current_{{ dt.stdout }}/ | awk -F' ' '{print $9}'"
+    tags: ft
+
+  - name: 'copy source files to archive working folder'
+    copy:
+      src: '{{ src_folder_path }}'
+      dest: '{{ working_dir }}/archive_{{ dt.stdout }}/'
+      follow: no
+      remote_src: false
+    tags: ft
+
+  - name: 'list file names in archive working folder'
+    shell: "ls -lrt {{ working_dir }}/archive_{{ dt.stdout }}/ | awk -F' ' '{print $9}'"
+    tags: ft
+
+- name: 'FileRemove Playbook'
+  hosts: targets
+  # connection: local
+  gather_facts: no
+  become: true
+  vars_files:
+  - variables.txt
+  tasks:
+  - name: 'remove current release folder for selected release date'
+    file:
+      path: '{{ working_dir }}/current_{{ release_dt }}'
+      state: absent
+    when: current_folder_removal == 'yes'
+    tags: rm
+
+  - name: 'remove archive release folder for selected release date'
+    file:
+      path: '{{ working_dir }}/archive_{{ release_dt }}'
+      state: absent
+    when: archive_folder_removal == 'yes'
+    tags: rm

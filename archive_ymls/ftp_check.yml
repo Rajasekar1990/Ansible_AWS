@@ -1,0 +1,78 @@
+- name: 'Fetch files playbook'
+  hosts: all
+  gather_facts: no
+  become: true
+  vars:
+    - file_loc: /home/ubuntu/target1/ftp_files
+    - tmp_loc: /home/ubuntu/ansible/tmp/remotefiles
+    - target_loc: /home/ubuntu/target2/ftp_files
+  vars_files:
+    - remotefile_names.txt
+  tasks:
+  - name: 'get current date in dd_mm_yyyy format'
+    command: date '+%d_%m_%Y'
+    register: dt
+    # when: inventory_hostname == 'ansible_target1' 
+  - debug: var=dt # print the output in a json format
+    # when: inventory_hostname == 'ansible_target1'
+  - debug: msg='{{ dt.stdout }}' # print the jsonQuery for specific value
+    # when: inventory_hostname == 'ansible_target1'
+  
+  - name: 'remove the files in target loc on ansible_target2'
+    file:
+      path: '{{ target_loc }}/{{ item }}.jar'
+      state: absent
+    when: inventory_hostname == 'ansible_target2'
+    with_items:
+      - '{{ filename }}'
+  
+  - name: 'fetch files from ansible target1'
+    fetch: 
+      src: '{{ file_loc }}/{{ item }}.jar'
+      dest: '{{ tmp_loc }}/{{ item }}.jar'
+      flat: yes
+    when: inventory_hostname == 'ansible_target1'
+    with_items: 
+      - '{{ filename }}'
+      
+  - name: 'Copy files to ansible target2'
+    copy:
+      src: '{{ tmp_loc }}/'
+      dest: '{{ target_loc }}/'
+      follow: no
+      remote_src: no
+      backup: yes
+    when: inventory_hostname == 'ansible_target2'
+    
+  - name: 'check presence of copied files on ansible target2'
+    file:
+      path: '{{ target_loc }}/{{ item }}.jar'
+      state: file
+    when: inventory_hostname == 'ansible_target2'
+    with_items:
+      - '{{ filename }}'
+
+  - name: 'if source file exist in ansible_target2 then rename and move to archive'
+    copy: 
+      src: '{{ target_loc }}/{{ item }}.jar'
+      dest: '{{ target_loc }}/{{ item }}_{{ dt.stdout }}.jar'
+      follow: no
+      backup: yes
+      remote_src: yes
+    when: inventory_hostname == 'ansible_target2'
+    with_items:
+      - '{{ filename }}'
+
+  - name: 'check presence of archived files on ansible target2'
+    file:
+      path: '{{ target_loc }}/{{ item }}_{{ dt.stdout }}.jar'
+      state: file
+    when: inventory_hostname == 'ansible_target2'
+    with_items:
+      - '{{ filename }}'
+
+  - name: 'remove files in tmp dir of ansible controller'
+    file:
+      path: '{{ tmp_loc }}'
+      state: absent
+    when: inventory_hostname == '127.0.0.1'

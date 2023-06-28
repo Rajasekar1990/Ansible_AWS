@@ -1,0 +1,58 @@
+---
+- hosts: targets
+  become: true
+  gather_facts: no
+  vars_files:
+  - variables.txt
+  tasks:
+  - name: 'installing mysql and dependencies'
+    package:
+      name: "{{ item }}"
+      state: present
+      update_cache: no
+    loop:
+      - mysql-server
+      - mysql-client 
+      - python3-mysqldb
+      - libmysqlclient-dev
+    become: yes
+
+  # - name: 'install mysql from yum'
+  #   dnf:
+  #     name: mysql
+  #     state: installed
+  #   become: yes
+
+  - name: 'start/enable mysql service'
+    service:
+      name: mysql
+      state: started
+      enabled: yes
+
+  - name: 'creating mysql user'
+    mysql_user:
+      name: "{{ login_user }}"
+      password: "{{ login_password }}"
+      priv: '*.*:ALL'
+      host: '%'
+      state: present
+
+  - name: 'creating db'
+    mysql_db:
+      name: "{{ login_db }}"
+      state: present
+
+  - name: 'Enable remote login to mysql'
+    lineinfile:
+      path: /etc/mysql/mysql.conf.d/mysqld.cnf
+      regexp: '^bind-address'
+      line: 'bind-address = 0.0.0.0'
+      backup: yes
+    notify:
+      - Restart mysql
+  
+  handlers:
+  - name: 'Restart mysql'
+    service:
+      name: mysql
+      state: restarted

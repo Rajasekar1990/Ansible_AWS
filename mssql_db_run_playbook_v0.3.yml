@@ -1,0 +1,139 @@
+---
+- name: 'DB_playbook v0.3'
+  hosts: all
+  # connection: remote
+  become_method: runas
+  gather_facts: no
+  vars_files:
+  - variables.txt
+  - sqlfilename_list.txt
+  - mssql_query.txt
+  tasks:
+  # - name: 'Fetch current date'
+  #   ansible.builtin.setup:
+  #     gather_subset:
+  #       - 'date_time'
+  #   register: 'datetime_var'
+  #   when: inventory_hostname in groups['remote_servers'] 
+  # - name: 'Store ansible_facts of ansible targets'
+  #   debug: var=datetime_var
+  #   when: inventory_hostname in groups['remote_servers']
+  # - name: 'Store datetime in ddmmyyyy_hhmmss format'
+  #   debug: msg='{{ datetime_var.ansible_facts.ansible_date_time.day }}{{ datetime_var.ansible_facts.ansible_date_time.month }}{{ datetime_var.ansible_facts.ansible_date_time.year }}_{{ datetime_var.ansible_facts.ansible_date_time.hour }}{{ datetime_var.ansible_facts.ansible_date_time.minute }}{{ datetime_var.ansible_facts.ansible_date_time.second }}'
+  #   when: inventory_hostname in groups['remote_servers']
+  
+  # - name: 'Check .sql syntax before execution'
+  #   win_lineinfile:
+  #     path: '{{ sql_filepath }}'
+  #     regex: ';'
+  #     line: '; not found'
+  #     state: present
+  #   register: presence
+  #   # changed_when: false
+  #   check_mode: true
+  #   # failed_when: "'COMMIT' in presence.msg"
+  #   when: inventory_hostname in groups['remote_servers']
+  #   with_items:
+  #     - '{{ sqlfilename | replace(".sql", "") }}'
+
+  # - name: 'Show result, if not found'
+  #   debug:
+  #     var: presence
+  #   when: inventory_hostname in groups['remote_servers']
+  
+  # - name: 'Create sql_results folder if not exists'
+  #   win_file:
+  #     path: 'C:\sql_results'
+  #     state: directory
+  #   when: inventory_hostname in groups['remote_servers']
+  #   any_errors_fatal: true
+
+  # - name: 'connect MSSQL db'
+  #   community.general.mssql_script:
+  #     login_user: "{{ mssql_login_user }}"
+  #     login_password: "{{ mssql_login_password }}"
+  #     login_host: "{{ mssql_login_host }}"
+  #     login_port: "{{ mssql_port }}"
+  #     db: "{{ mssql_db }}"  
+  #     script: '{{ item }}'
+  #   register: query_output
+  #   when: inventory_hostname in groups['localhosts']
+  #   with_items:
+  #       - '{{ querylist }}'
+
+  - name: 'execute .sql file from controller'
+    community.general.mssql_db:
+      login_host: '{{ mssql_login_host }}'
+      login_user: '{{ mssql_login_user }}'
+      login_password: '{{ mssql_login_password }}'
+      login_port: '{{ mssql_port }}'
+      name: '{{ mssql_db }}'
+      state: import
+      target: '{{ item }}'
+    register: sql_query_output
+    ignore_errors: true
+    when: inventory_hostname in groups['localhosts']
+    with_items:
+      - '/home/ubuntu/ansible/sql_file1.sql'
+
+  - debug: var=sql_query_output
+    when: inventory_hostname in groups['localhosts']
+    with_items:
+      - '/home/ubuntu/ansible/sql_file1.sql'
+  - debug: msg='.sql file executed successfully'
+    when: 
+      - inventory_hostname in groups['localhosts']
+      - item.1 == "import successful"
+    with_together:
+      - '/home/ubuntu/ansible/sql_file1.sql'
+      - "{{ sql_query_output | json_query('results[*].msg') }}"
+  - debug: msg='.sql file executed failed'
+    when: 
+      - inventory_hostname in groups['localhosts']
+      - item.1 != "import successful"
+    with_together:
+      - '/home/ubuntu/ansible/sql_file1.sql'
+      - "{{ sql_query_output | json_query('results[*].exception') }}"
+
+  # - name: 'dump file to database {{ mssql_db }}'
+  #   community.general.mssql_db:
+  #     login_host: '{{ mssql_login_host }}'
+  #     login_user: '{{ mssql_login_user }}'
+  #     login_password: '{{ mssql_login_password }}'
+  #     login_port: '{{ mssql_port }}'
+  #     name: '{{ mssql_db }}'
+  #     # state: dump
+  #     target: /home/ubuntu/ansible/dump1.sql
+  #   register: dump_output
+  #   when: inventory_hostname in groups['localhosts']
+    
+  # - name: 'Execute .sql file'
+  #   win_shell:
+  #      'Sqlcmd -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
+  #   register: output
+  #   when: 
+  #     - inventory_hostname in groups['remote_servers']
+  #   with_items:
+  #     - '{{ sqlfilename | replace(".sql", "") }}'
+
+  # - name: 'Statement execution status'
+  #   debug: var=output
+  #   when: 
+  #     - inventory_hostname in groups['remote_servers']
+  # - name: 'Statement execution output message if successful'
+  #   debug: msg='{{ item.0 }}.sql executed successfully'
+  #   when: 
+  #     - inventory_hostname in groups['remote_servers']
+  #     - item.1 == 0
+  #   with_together:
+  #     - '{{ sqlfilename | replace(".sql", "") }}'
+  #     - "{{ output | json_query('results[*].rc') }}"
+
+  # - name: 'Statement execution output message if failed'
+  #   debug: msg='{{ item.0 }}.sql executed failed'
+  #   when: 
+  #     - inventory_hostname in groups['remote_servers']
+  #     - item.1 != 0
+  #   with_together:
+  #     - '{{ sqlfilename | replace(".sql", "") }}'
+  #     - "{{ output | json_query('results[*].rc') }}"

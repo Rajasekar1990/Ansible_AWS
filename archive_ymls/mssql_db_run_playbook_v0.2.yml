@@ -1,0 +1,59 @@
+---
+- name: 'DB_playbook v0.2'
+  hosts: all
+  # connection: remote
+  become_method: runas
+  gather_facts: no
+  vars_files:
+  - variables.txt
+  - mssql_query.txt
+  tasks:
+  # - name: 'connect to mssql db using win_shell module from query '
+  #   win_shell:
+  #     "invoke-sqlcmd -username \"{{ mssql_login_user }}\" -password \"{{ mssql_login_password }}\" -Query \"{{ select_query1 }}\" | Select-Object * -ExcludeProperty ItemArray, Table, RowError, RowState, HasErrors | ConvertTo-Json"
+  #   register: output
+  #   when: inventory_hostname in groups['remote_servers']
+  # - set_fact:
+  #     ids: "{{ output.rc|from_json }}"
+  #   when: inventory_hostname in groups['remote_servers']
+  # - debug: var=ids
+  #   when: inventory_hostname in groups['remote_servers']
+
+  - name: 'connect to mssql db using win_shell module from sql file'
+    win_command:
+       'Sqlcmd -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i C:\\SQLQuery2.sql -o C:\\SQLQuery2.log'
+    register: output
+    when: inventory_hostname in groups['remote_servers']
+
+  # - name: Check DB connection
+  #   community.general.mssql_script:
+  #     login_user: "{{ mssql_login_user }}"
+  #     login_password: "{{ mssql_login_password }}"
+  #     login_host: "{{ mssql_login_host }}"
+  #     login_port: "{{ mssql_port }}"
+  #     db: master  
+  #     script: "SELECT 1"
+  #   when: inventory_hostname in groups['localhosts']
+  #   tags: connect
+
+  # - name: 'Connect to {{ mssql_db }} from ansible controller'
+  #   community.general.mssql_script:
+  #     login_host: '{{ mssql_login_host }}'
+  #     login_user: '{{ mssql_login_user }}'
+  #     login_password: '{{ mssql_login_password }}'
+  #     login_port: "{{ mssql_port }}"
+  #     db: "{{ mssql_db }}"
+  #     script: '{{ item }}'
+  #   register: result_params
+  #   # ignore_errors: yes
+  #   # run_once: true
+  #   when: 
+  #     - inventory_hostname in groups['localhosts']
+  #   with_items:
+  #     - '{{ querylist }}'
+  #   tags: connect
+    
+  # - debug: var=result_params
+  #   when: inventory_hostname in groups['localhosts']
+  # - debug: msg='{{ result_params.query_results[0][0][0] }}'
+  #   when: inventory_hostname in groups['localhosts']

@@ -1,0 +1,55 @@
+---
+- hosts: targets
+  # connection: remote
+  become: true
+  gather_facts: no
+  vars_files:
+  - variables.txt
+  tasks:
+  - name: 'connect to mysql db'
+    mysql_db:
+      login_host: '{{ login_host }}'
+      login_user: '{{ login_user }}'
+      login_password: '{{ login_password }}'
+      name: '{{ login_db }}'
+      state: present
+    tags: connect
+
+  - name: 'create table'
+    community.mysql.mysql_query:
+      login_host: '{{ login_host }}'
+      login_user: '{{ login_user }}'
+      login_password: '{{ login_password }}'
+      login_db: '{{ login_db }}'
+      query: '{{ create_table_query }}'
+      single_transaction: true
+    tags: create
+
+  - name: 'insert a row in Persons table'
+    community.mysql.mysql_query:
+      login_host: '{{ login_host }}'
+      login_user: '{{ login_user }}'
+      login_password: '{{ login_password }}'
+      login_db: '{{ login_db }}'
+      query: '{{ insert_query }}'
+    tags: insert
+
+  - name: 'run select statement'
+    community.mysql.mysql_query:
+      login_host: '{{ login_host }}'
+      login_user: '{{ login_user }}'
+      login_password: '{{ login_password }}'
+      login_db: '{{ login_db }}'
+      query: '{{ select_query }}'
+      single_transaction: true
+    tags: select
+
+  - name: 'delete record in table'
+    community.mysql.mysql_query:
+      login_host: '{{ login_host }}'
+      login_user: '{{ login_user }}'
+      login_password: '{{ login_password }}'
+      login_db: '{{ login_db }}'
+      query: '{{ delete_query }}'
+      single_transaction: true
+    tags: delete

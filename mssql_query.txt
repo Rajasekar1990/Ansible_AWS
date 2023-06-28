@@ -1,0 +1,5 @@
+querylist:
+  - 'SELECT * FROM [test_db].[dbo].[namelist]'
+  - "INSERT INTO [test_db].[dbo].[namelist] VALUES ('James','Anderson')"
+  - "DELETE FROM [test_db].[dbo].[namelist] WHERE (firstname='Raj')"
+  - 'SELECT * FROM [test_db].[dbo].[namelist]'
