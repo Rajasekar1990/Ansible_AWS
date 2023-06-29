@@ -4,16 +4,16 @@
     # TASK3: Create a filename_list.txt with a key i.e. columnname as 'filename' for list-dict 
     # TASK4: Create list-dict with all .sql filenames fetched from directory path
     # TASK5: Find any already existing version of JARs with same name that matches on target location
-    # TASK6: If TASK2 is true then rename JARs
+    # TASK6: If TASK5 is true then rename JARs with <FILE NAME>_bkp_<DD_MM_YYYY>.jar format
     # TASK7: Download JARs from remote location 
     # TASK8: Check downloaded JARs statuses like file exists, file size etc. on controller
     # TASK9: Create target directory if not exists on target machines
     # TASK10: Copy JARs to destination on target machines
     # TASK11: Check copied JARs statuses like file exists, file size etc. on target machines
     # TASK12: Create Archive directory if not exists on target machines
-    # TASK13: Archive JARs
+    # TASK13: Archive JARs under \archive directory with <FILE NAME>_<DD_MM_YYYY>.jar format
     # TASK14: Check archived JARs statuses like file exists, file size etc. on target machines
-    # TASK14: Remove JARs in tmp direcotry on controller 
+    # TASK15: Remove JARs in tmp direcotry on controller 
   #######################################################################################################
 ---
 - name: 'FileTransfer playbook v0.7'
