@@ -1,19 +1,22 @@
- # MSSQL DB WORKFLOW TASKS -
+  ############################# MSSQL DB WORKFLOW TASKS #################################################
   #  TASK1: Fetch Current Date and Time to pass when needed create unique file names
   #  TASK2: Connect MSSQL DB Server using Sqlcmd with cred
   #  TASK3: Check db connection status
-  #  TASK4: Fetch .sql files from folder path provided
-  #  TASK5: Create a newfile with a key for list-dict 
-  #  TASK6: Create list-dict with all .sql filenames fetched from folderpath
+  #  TASK4: Fetch .sql files from directory path provided
+  #  TASK5: Create a sqlfilename_list.txt with a key i.e. column name as 'sqlfilename' for list-dict 
+  #  TASK6: Create list-dict with all .sql filenames fetched from directory path
   #  TASK7: Create sql_results folder if not exists to store resutls
   #  TASK8: Execute .sql files fetched in sequential manner
   #  TASK9: Check statement execution status
+  #######################################################################################################
 ---
 - name: 'DB_playbook v0.4'
   hosts: all
   # connection: remote
   become_method: runas
   gather_facts: no
+  # vars:
+  # -
   vars_files:
   - variables.txt
   - sqlfilename_list.txt
@@ -57,6 +60,7 @@
     with_items:
       - '{{ connection_check.rc }}'
 
+  ###############################################################################
   # - name: 'Check .sql syntax before execution'
   #   win_lineinfile:
   #     path: '{{ sql_filepath }}'
@@ -75,8 +79,9 @@
   #   debug:
   #     var: presence
   #   when: inventory_hostname in groups['remote_servers']
-
-  - name: 'Fetch sql files from the target location'
+  ###############################################################################
+  
+  - name: 'Get all *.sql filenames from the target location'
     win_find:
       paths: C:\sql_stmts\
       patterns: [ '*.sql' ]

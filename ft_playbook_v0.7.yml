@@ -1,0 +1,209 @@
+  ############################# FILE TRANSFER WORKFLOW TASKS ############################################# 
+    # TASK1: Fetch Current Date and store in a var to pass when needed for renaming JARs
+    # TASK2: Get all *.jar files from remote location directory path provided
+    # TASK3: Create a filename_list.txt with a key i.e. columnname as 'filename' for list-dict 
+    # TASK4: Create list-dict with all .sql filenames fetched from directory path
+    # TASK5: Find any already existing version of JARs with same name that matches on target location
+    # TASK6: If TASK2 is true then rename JARs
+    # TASK7: Download JARs from remote location 
+    # TASK8: Check downloaded JARs statuses like file exists, file size etc. on controller
+    # TASK9: Create target directory if not exists on target machines
+    # TASK10: Copy JARs to destination on target machines
+    # TASK11: Check copied JARs statuses like file exists, file size etc. on target machines
+    # TASK12: Create Archive directory if not exists on target machines
+    # TASK13: Archive JARs
+    # TASK14: Check archived JARs statuses like file exists, file size etc. on target machines
+    # TASK14: Remove JARs in tmp direcotry on controller 
+  #######################################################################################################
+---
+- name: 'FileTransfer playbook v0.7'
+  hosts: all
+  gather_facts: no
+  # become: true # not needed as winrm doesnt support sudo instead use become_method: runas
+  # vars:
+  # - 
+  vars_files:
+    - filename_list.txt
+    - variables.txt
+  tasks:
+  - name: 'Fetch current date'
+    ansible.builtin.setup:
+      gather_subset:
+        - 'date_time'
+    register: 'date_var'
+    when: inventory_hostname in groups['win_targets']
+  - name: 'store ansible_facts of ansible targets'
+    debug: var=date_var
+    when: inventory_hostname in groups['win_targets']
+  - name: 'create a variable to store date'
+    debug: msg='{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}'
+    when: inventory_hostname in groups['win_targets']
+  
+  - name: 'Get all *.jar filenames from the target location'
+    win_find:
+      paths: '{{ file_loc }}'
+      patterns: [ '*.jar' ]
+    register: file_list
+    when: inventory_hostname in groups['remote_servers']
+  - debug: var=file_list
+    when: inventory_hostname in groups['remote_servers']
+  - debug: msg="filename {{ item.0}}" 
+    when: 
+      - inventory_hostname in groups['remote_servers'] 
+    with_together:
+      - "{{ file_list | json_query('files[*].filename') }}"
+
+  - name: 'Create a dict in filename_list.txt on ansible controller'
+    lineinfile:
+      path: '/home/ubuntu/ansible/filename_list.txt'
+      create: true
+      line: 'filename:'
+      insertbefore: "BOF"
+    when: 
+      - inventory_hostname in groups['localhosts']
+
+  - name: 'Add filenames fetched as a listed-dict into sqlfilename_list.txt on ansible controller'
+    lineinfile:
+      path: '/home/ubuntu/ansible/filename_list.txt'
+      create: true
+      line: '- {{ item.0 }}'
+      insertafter: "EOF"
+    when: 
+      - inventory_hostname in groups['localhosts']
+    with_together:
+      - "{{ hostvars.ansible_remoteserver.file_list | json_query('files[*].filename') }}"
+
+  - name: 'Find old version of ste files if any exists in target loc on ansible targets'
+    win_find:
+      paths: '{{ target_loc }}\'
+      file_type: file
+      size: '{{ file_size }}'
+      regexp: '{{ item }}.jar'
+    register: prev_ver_file_status
+    when: inventory_hostname in groups['win_targets'] 
+    with_items:
+      - '{{ filename | lower | replace(".jar", "") }}'
+
+  - name: 'Renaming previous version ste files if any exists'  
+    win_copy:
+      src: '{{ target_loc }}\{{ item.0 }}.jar'
+      dest: '{{ target_loc }}\{{ item.0 }}_bkp_{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
+      remote_src: yes
+      backup: yes
+    become_method: runas   
+    when: 
+      - inventory_hostname in groups['win_targets'] 
+      - item.1 == 1
+    with_together:
+      - '{{ filename | lower | replace(".jar", "") }}'
+      - "{{ prev_ver_file_status | json_query('results[*].matched') }}"
+    ignore_errors: true
+       
+  - name: 'Fetching files from remote location'
+    fetch: 
+      src: '{{ file_loc }}\{{ item }}.jar'
+      dest: '{{ tmp_loc }}/{{ item }}.jar'
+      flat: yes
+    become_method: runas
+    when: inventory_hostname in groups['remote_servers']
+    with_items:
+      - '{{ filename | lower | replace(".jar", "") }}'
+    any_errors_fatal: true
+    
+  - name: 'Checking fetched file statuses on ansible controller'
+    find:
+      paths: '{{ tmp_loc }}/'
+      file_type: file
+      patterns: '{{ item }}.jar'
+      size: '{{ file_size }}'
+      use_regex: yes
+    register: fetched_file_status
+    when:  
+      - inventory_hostname in groups['localhosts']
+    with_items:
+      - '{{ filename | lower | replace(".jar", "") }}'
+    any_errors_fatal: true
+
+  - name: 'Creating target dir on ansible targets if not exists'
+    win_file:
+      path: '{{ target_loc }}'
+      state: directory
+    when: inventory_hostname in groups['win_targets']
+    any_errors_fatal: true
+        
+  - name: 'Copying files to ansible targets'
+    win_copy:
+      src: '{{ tmp_loc }}/{{ item }}.jar'
+      dest: '{{ target_loc }}\{{ item }}.jar'
+      remote_src: no
+      backup: yes
+    become_method: runas
+    when: 
+      - inventory_hostname in groups['win_targets']
+    with_items:
+      - '{{ filename | lower | replace(".jar", "") }}'
+    any_errors_fatal: true
+
+  - name: 'Checking copied file statuses on ansible targets'
+    win_find:
+      paths: '{{ target_loc }}\'
+      file_type: file
+      regexp: '{{ item.0 }}.jar'
+      size: '{{ file_size }}'
+    register: copied_file_status
+    when: inventory_hostname in groups['win_targets'] 
+    with_together:
+      - '{{ filename | lower | replace(".jar", "") }}'
+    any_errors_fatal: true
+
+  ################### ARCHIVING KEPT AS OPTIONAL (refer variables.txt and provide input as Y or N) ########
+  - name: 'Creating archive dir on ansible targets if not exists'
+    win_file:
+      path: '{{ target_loc }}\archive'
+      state: directory
+    when: 
+      - inventory_hostname in groups['win_targets']
+      - archive.lower() == 'y'
+    any_errors_fatal: true
+
+  - name: 'Create an archive for JARs'
+    win_copy: 
+      src: '{{ target_loc }}\{{ item.0 }}.jar'
+      dest: '{{ target_loc }}\archive\{{ item.0 }}_{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
+      remote_src: yes
+      follow: no
+      backup: yes
+    register: archived_file_status
+    become_method: runas
+    when: 
+      - inventory_hostname in groups['win_targets']
+      - item.1 == 1
+      - archive.lower() == 'y'
+    with_together:
+      - '{{ filename | lower | replace(".jar", "") }}'
+      - "{{ copied_file_status | json_query('results[*].matched') }}"
+    any_errors_fatal: true
+
+  - name: 'Checking archived file exists on ansible targets'
+    win_find:
+      paths: '{{ target_loc }}\archive\'
+      file_type: file
+      regexp: '{{ item.0 }}_{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
+      size: '{{ file_size }}'
+    when: 
+      - inventory_hostname in groups['win_targets'] 
+      - archive.lower() == 'y'
+    with_together:
+      - '{{ filename | lower | replace(".jar", "") }}'
+  #########################################################################################################
+
+  - name: 'Removing files in tmp dir of ansible controller'
+    file:
+      path: '{{ tmp_loc }}/{{ item }}.jar'
+      state: absent
+    become: true
+    when: 
+      - inventory_hostname in groups['localhosts'] 
+    with_items:
+      - '{{ filename | lower | replace(".jar", "") }}'
+    any_errors_fatal: true
