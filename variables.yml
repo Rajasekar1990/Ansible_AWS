@@ -3,9 +3,15 @@ file_loc: 'C:\src_loc\'
 tmp_loc: '/home/ubuntu/ansible/tmp/remotefiles'
 target_loc: 'C:\{{ inventory_hostname }}\'
 file_size: '2k'
-mssql_login_host: 'ec2-65-1-2-228.ap-south-1.compute.amazonaws.com'
+mssql_login_host: '172.31.45.40'
 mssql_login_user: 'target1'
-mssql_login_password: 'Password@123'
+mssql_login_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          39626661643365346538396163363235643939616162356634636338396235643435666535326137
+          3465646662383739633861666264613064346631376536300a613632626335323262363039383432
+          39303063633032343266386530353931323737353733393635333439643130303333336161626163
+          6264623034653262660a393739663363613264303066663961666562643333666362376331656461
+          6334
 mssql_db: 'test_db'
 mssql_port: 1433
 sql_filepath: 'C:\sql_stmts\{{ item.0 }}.sql'
