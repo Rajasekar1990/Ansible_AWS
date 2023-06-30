@@ -1,13 +1,13 @@
   ############################# MSSQL DB WORKFLOW TASKS #################################################
-  #  TASK1: Fetch Current Date and Time to pass when needed create unique file names
-  #  TASK2: Connect MSSQL DB Server using Sqlcmd with cred
-  #  TASK3: Check db connection status
+  #  TASK1: Fetch Current Date and Time to pass when needed to create unique naming for files
+  #  TASK2: Connect MSSQL DB Server using Sqlcmd using db cred
+  #  TASK3: Check db connection status is successful
   #  TASK4: Fetch .sql files from directory path provided
-  #  TASK5: Create a sqlfilename_list.txt with a key i.e. column name as 'sqlfilename' for list-dict 
-  #  TASK6: Create list-dict with all .sql filenames fetched from directory path
+  #  TASK5: Create sqlfilename_list.yml with a key i.e. column name as 'sqlfilename' for list-dict 
+  #  TASK6: Update sqlfilename_list.yml with all *.sql filenames in list-dict
   #  TASK7: Create sql_results folder if not exists to store resutls
-  #  TASK8: Execute .sql files fetched in sequential manner
-  #  TASK9: Check statement execution status
+  #  TASK8: Execute .sql files fetched in sequential manner and redirect the output to a each file in 'sql_results\<SQLfilename>_<DDMMYYYY>_<hhmmss>' format
+  #  TASK9: Check SQL statement execution status
   #######################################################################################################
 ---
 - name: 'DB_playbook v0.4'
@@ -18,10 +18,10 @@
   # vars:
   # -
   vars_files:
-  - variables.txt
-  - sqlfilename_list.txt
+  - variables.yml
+  - sqlfilename_list.yml
   tasks:
-  - name: 'Fetch current date'
+  - name: 'Get current date&time'
     ansible.builtin.setup:
       gather_subset:
         - 'date_time'
@@ -64,8 +64,8 @@
   # - name: 'Check .sql syntax before execution'
   #   win_lineinfile:
   #     path: '{{ sql_filepath }}'
-  #     regex: ';'
-  #     line: '; not found'
+  #     regex: 'COMMIT'
+  #     line: 'COMMIT not found'
   #     state: present
   #   register: presence
   #   # changed_when: false
@@ -97,7 +97,7 @@
   
   - name: 'Create a dict in sqlfilename_list.txt on ansible controller'
     lineinfile:
-      path: '/home/ubuntu/ansible/sqlfilename_list.txt'
+      path: '/home/ubuntu/ansible/sqlfilename_list.yml'
       create: true
       line: 'sqlfilename:'
       insertbefore: "BOF"
@@ -106,7 +106,7 @@
 
   - name: 'Add filenames fetched as a listed-dict into sqlfilename_list.txt on ansible controller'
     lineinfile:
-      path: '/home/ubuntu/ansible/sqlfilename_list.txt'
+      path: '/home/ubuntu/ansible/sqlfilename_list.yml'
       create: true
       line: '- {{ item.0 }}'
       insertafter: "EOF"
@@ -131,11 +131,11 @@
     with_together:
       - '{{ sqlfilename | replace(".sql", "") }}'
 
-  - name: 'Statement execution check status'
+  - name: 'SQL Statement execution check status'
     debug: var=output
     when: 
       - inventory_hostname in groups['remote_servers']
-  - name: 'Statement execution output message if successful'
+  - name: 'SQL Statement execution output message if successful'
     debug: msg='{{ item.0 }}.sql executed successfully'
     when: 
       - inventory_hostname in groups['remote_servers']
@@ -143,7 +143,7 @@
     with_together:
       - '{{ sqlfilename | replace(".sql", "") }}'
       - "{{ output | json_query('results[*].rc') }}"
-  - name: 'Statement execution output message check failed'
+  - name: 'SQL Statement execution output message check failed'
     debug: msg='{{ item.0 }}.sql executed failed'
     when: 
       - inventory_hostname in groups['remote_servers']

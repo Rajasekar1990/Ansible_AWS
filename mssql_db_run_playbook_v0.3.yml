@@ -5,9 +5,9 @@
   become_method: runas
   gather_facts: no
   vars_files:
-  - variables.txt
-  - sqlfilename_list.txt
-  - mssql_query.txt
+  - variables.yml
+  - sqlfilename_list.yml
+  - mssql_query.yml
   tasks:
   # - name: 'Fetch current date'
   #   ansible.builtin.setup:
@@ -70,6 +70,7 @@
       name: '{{ mssql_db }}'
       state: import
       target: '{{ item }}'
+      autocommit: true
     register: sql_query_output
     ignore_errors: true
     when: inventory_hostname in groups['localhosts']
@@ -87,13 +88,13 @@
     with_together:
       - '/home/ubuntu/ansible/sql_file1.sql'
       - "{{ sql_query_output | json_query('results[*].msg') }}"
-  - debug: msg='.sql file executed failed'
+  - debug: msg='.sql file executed failed with exception {{ sql_query_output | json_query('results[*].exception') }}"'
     when: 
       - inventory_hostname in groups['localhosts']
       - item.1 != "import successful"
     with_together:
       - '/home/ubuntu/ansible/sql_file1.sql'
-      - "{{ sql_query_output | json_query('results[*].exception') }}"
+      - "{{ sql_query_output | json_query('results[*].msg') }}"
 
   # - name: 'dump file to database {{ mssql_db }}'
   #   community.general.mssql_db:

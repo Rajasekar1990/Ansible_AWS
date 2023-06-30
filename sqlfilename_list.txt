@@ -1,4 +1,0 @@
-sqlfilename:
-- Delete_Stmt.sql
-- Insert_Stmt.sql
-- Select_Stmt.sql

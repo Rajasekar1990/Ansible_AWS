@@ -1,19 +1,19 @@
   ############################# FILE TRANSFER WORKFLOW TASKS ############################################# 
     # TASK1: Fetch Current Date and store in a var to pass when needed for renaming JARs
     # TASK2: Get all *.jar files from remote location directory path provided
-    # TASK3: Create a filename_list.txt with a key i.e. columnname as 'filename' for list-dict 
+    # TASK3: Create filename_list.yml with a key i.e. columnname as 'filename' for list-dict 
     # TASK4: Create list-dict with all .sql filenames fetched from directory path
     # TASK5: Find any already existing version of JARs with same name that matches on target location
-    # TASK6: If TASK5 is true then rename JARs with <FILE NAME>_bkp_<DD_MM_YYYY>.jar format
+    # TASK6: If TASK5 is true then rename JARs with <FILE NAME>_bkp_<DDMMYYYY>.jar format
     # TASK7: Download JARs from remote location 
     # TASK8: Check downloaded JARs statuses like file exists, file size etc. on controller
     # TASK9: Create target directory if not exists on target machines
     # TASK10: Copy JARs to destination on target machines
     # TASK11: Check copied JARs statuses like file exists, file size etc. on target machines
     # TASK12: Create Archive directory if not exists on target machines
-    # TASK13: Archive JARs under \archive directory with <FILE NAME>_<DD_MM_YYYY>.jar format
+    # TASK13: Archive JARs under \archive directory with <FILE NAME>_<DDMMYYYY>.jar format
     # TASK14: Check archived JARs statuses like file exists, file size etc. on target machines
-    # TASK15: Remove JARs in tmp direcotry on controller 
+    # TASK15: Remove JARs in tmp directory on controller 
   #######################################################################################################
 ---
 - name: 'FileTransfer playbook v0.7'
@@ -23,10 +23,10 @@
   # vars:
   # - 
   vars_files:
-    - filename_list.txt
-    - variables.txt
+    - filename_list.yml
+    - variables.yml
   tasks:
-  - name: 'Fetch current date'
+  - name: 'Get current date'
     ansible.builtin.setup:
       gather_subset:
         - 'date_time'
@@ -36,7 +36,7 @@
     debug: var=date_var
     when: inventory_hostname in groups['win_targets']
   - name: 'create a variable to store date'
-    debug: msg='{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}'
+    debug: msg='{{ date_var.ansible_facts.ansible_date_time.day }}{{ date_var.ansible_facts.ansible_date_time.month }}{{ date_var.ansible_facts.ansible_date_time.year }}'
     when: inventory_hostname in groups['win_targets']
   
   - name: 'Get all *.jar filenames from the target location'
@@ -55,16 +55,16 @@
 
   - name: 'Create a dict in filename_list.txt on ansible controller'
     lineinfile:
-      path: '/home/ubuntu/ansible/filename_list.txt'
+      path: '/home/ubuntu/ansible/filename_list.yml'
       create: true
       line: 'filename:'
       insertbefore: "BOF"
     when: 
       - inventory_hostname in groups['localhosts']
 
-  - name: 'Add filenames fetched as a listed-dict into sqlfilename_list.txt on ansible controller'
+  - name: 'Add filenames fetched as a list-dict into sqlfilename_list.txt on ansible controller'
     lineinfile:
-      path: '/home/ubuntu/ansible/filename_list.txt'
+      path: '/home/ubuntu/ansible/filename_list.yml'
       create: true
       line: '- {{ item.0 }}'
       insertafter: "EOF"
@@ -73,7 +73,7 @@
     with_together:
       - "{{ hostvars.ansible_remoteserver.file_list | json_query('files[*].filename') }}"
 
-  - name: 'Find old version of ste files if any exists in target loc on ansible targets'
+  - name: 'Find old version of hw files if any exists in target loc on ansible targets'
     win_find:
       paths: '{{ target_loc }}\'
       file_type: file
@@ -84,10 +84,10 @@
     with_items:
       - '{{ filename | lower | replace(".jar", "") }}'
 
-  - name: 'Renaming previous version ste files if any exists'  
+  - name: 'Renaming previous version hw files if any exists'  
     win_copy:
       src: '{{ target_loc }}\{{ item.0 }}.jar'
-      dest: '{{ target_loc }}\{{ item.0 }}_bkp_{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
+      dest: '{{ target_loc }}\{{ item.0 }}_bkp_{{ date_var.ansible_facts.ansible_date_time.day }}{{ date_var.ansible_facts.ansible_date_time.month }}{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
       remote_src: yes
       backup: yes
     become_method: runas   
@@ -169,7 +169,7 @@
   - name: 'Create an archive for JARs'
     win_copy: 
       src: '{{ target_loc }}\{{ item.0 }}.jar'
-      dest: '{{ target_loc }}\archive\{{ item.0 }}_{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
+      dest: '{{ target_loc }}\archive\{{ item.0 }}_{{ date_var.ansible_facts.ansible_date_time.day }}{{ date_var.ansible_facts.ansible_date_time.month }}{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
       remote_src: yes
       follow: no
       backup: yes
@@ -188,7 +188,7 @@
     win_find:
       paths: '{{ target_loc }}\archive\'
       file_type: file
-      regexp: '{{ item.0 }}_{{ date_var.ansible_facts.ansible_date_time.day }}_{{ date_var.ansible_facts.ansible_date_time.month }}_{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
+      regexp: '{{ item.0 }}_{{ date_var.ansible_facts.ansible_date_time.day }}{{ date_var.ansible_facts.ansible_date_time.month }}{{ date_var.ansible_facts.ansible_date_time.year }}.jar'
       size: '{{ file_size }}'
     when: 
       - inventory_hostname in groups['win_targets'] 
