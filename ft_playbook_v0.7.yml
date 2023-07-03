@@ -10,9 +10,9 @@
     # TASK9: Create target directory if not exists on target machines
     # TASK10: Copy JARs to destination on target machines
     # TASK11: Check copied JARs statuses like file exists, file size etc. on target machines
-    # TASK12: Create Archive directory if not exists on target machines
-    # TASK13: Archive JARs under \archive directory with <FILE NAME>_<DDMMYYYY>.jar format
-    # TASK14: Check archived JARs statuses like file exists, file size etc. on target machines
+    # TASK12: Create Archive directory if not exists on target machines [RUN only when archive_flag is ON]
+    # TASK13: Archive JARs under \archive directory with <FILE NAME>_<DDMMYYYY>.jar format [RUN only when archive_flag is ON]
+    # TASK14: Check archived JARs statuses like file exists, file size etc. on target machines [RUN only when archive_flag is ON]
     # TASK15: Remove JARs in tmp directory on controller 
   #######################################################################################################
 ---
@@ -53,7 +53,7 @@
     with_together:
       - "{{ file_list | json_query('files[*].filename') }}"
 
-  - name: 'Create a dict in filename_list.txt on ansible controller'
+  - name: 'Create a dict in filename_list.yml on ansible controller'
     lineinfile:
       path: '/home/ubuntu/ansible/filename_list.yml'
       create: true
@@ -62,7 +62,7 @@
     when: 
       - inventory_hostname in groups['localhosts']
 
-  - name: 'Add filenames fetched as a list-dict into sqlfilename_list.txt on ansible controller'
+  - name: 'Add filenames fetched as a list-dict into filename_list.yml on ansible controller'
     lineinfile:
       path: '/home/ubuntu/ansible/filename_list.yml'
       create: true
@@ -156,14 +156,14 @@
       - '{{ filename | lower | replace(".jar", "") }}'
     any_errors_fatal: true
 
-  ################### ARCHIVING KEPT AS OPTIONAL (refer variables.txt and provide input as Y or N) ########
+  ################### ARCHIVING KEPT AS OPTIONAL (refer variables.yml and provide input as ON or OFF) ########
   - name: 'Creating archive dir on ansible targets if not exists'
     win_file:
       path: '{{ target_loc }}\archive'
       state: directory
     when: 
       - inventory_hostname in groups['win_targets']
-      - archive.lower() == 'y'
+      - archive_flag.lower() == 'on'
     any_errors_fatal: true
 
   - name: 'Create an archive for JARs'
@@ -178,7 +178,7 @@
     when: 
       - inventory_hostname in groups['win_targets']
       - item.1 == 1
-      - archive.lower() == 'y'
+      - archive_flag.lower() == 'on'
     with_together:
       - '{{ filename | lower | replace(".jar", "") }}'
       - "{{ copied_file_status | json_query('results[*].matched') }}"
@@ -192,7 +192,7 @@
       size: '{{ file_size }}'
     when: 
       - inventory_hostname in groups['win_targets'] 
-      - archive.lower() == 'y'
+      - archive_flag.lower() == 'on'
     with_together:
       - '{{ filename | lower | replace(".jar", "") }}'
   #########################################################################################################

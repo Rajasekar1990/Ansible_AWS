@@ -1,0 +1,468 @@
+2023-07-03 09:35:16,448 p=8584 u=ubuntu n=ansible | ansible-playbook [core 2.15.1]
+  config file = /home/ubuntu/ansible/ansible.cfg
+  configured module search path = ['/home/ubuntu/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python3.10/dist-packages/ansible
+  ansible collection location = /home/ubuntu/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/local/bin/ansible-playbook
+  python version = 3.10.6 (main, May 29 2023, 11:10:38) [GCC 11.3.0] (/usr/bin/python3)
+  jinja version = 3.0.3
+  libyaml = True
+2023-07-03 09:35:16,449 p=8584 u=ubuntu n=ansible | Using /home/ubuntu/ansible/ansible.cfg as config file
+2023-07-03 09:35:17,188 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:17,198 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_find to ansible.windows.win_find
+2023-07-03 09:35:17,201 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_file to ansible.windows.win_file
+2023-07-03 09:35:17,203 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:17,232 p=8584 u=ubuntu n=ansible | Skipping callback 'default', as we already have a stdout callback.
+2023-07-03 09:35:17,232 p=8584 u=ubuntu n=ansible | Skipping callback 'minimal', as we already have a stdout callback.
+2023-07-03 09:35:17,233 p=8584 u=ubuntu n=ansible | Skipping callback 'oneline', as we already have a stdout callback.
+2023-07-03 09:35:17,234 p=8584 u=ubuntu n=ansible | PLAYBOOK: mssql_db_run_playbook_v0.4.yml *****************************************************************************************************
+2023-07-03 09:35:17,235 p=8584 u=ubuntu n=ansible | 1 plays in mssql_db_run_playbook_v0.4.yml
+2023-07-03 09:35:17,241 p=8584 u=ubuntu n=ansible | PLAY [DB_playbook v0.4] **********************************************************************************************************************
+2023-07-03 09:35:17,308 p=8584 u=ubuntu n=ansible | TASK [Get current date&time] *****************************************************************************************************************
+2023-07-03 09:35:17,362 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:17,389 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:17,391 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:17,407 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.setup to ansible.windows.setup
+2023-07-03 09:35:26,618 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver]
+2023-07-03 09:35:26,628 p=8584 u=ubuntu n=ansible | TASK [Store ansible_facts of ansible targets] ************************************************************************************************
+2023-07-03 09:35:26,677 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:26,706 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:26,707 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:26,731 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => {
+    "datetime_var": {
+        "ansible_facts": {
+            "ansible_architecture": "64-bit",
+            "ansible_architecture2": "x86_64",
+            "ansible_bios_date": "08/24/2006",
+            "ansible_bios_version": "4.11.amazon",
+            "ansible_date_time": {
+                "date": "2023-07-03",
+                "day": "03",
+                "epoch": "1688376922.37613",
+                "epoch_int": 1688376922,
+                "epoch_local": "1688376922.37613",
+                "hour": "09",
+                "iso8601": "2023-07-03T09:35:22Z",
+                "iso8601_basic": "20230703T093522376129",
+                "iso8601_basic_short": "20230703T093522",
+                "iso8601_micro": "2023-07-03T09:35:22.376129Z",
+                "minute": "35",
+                "month": "07",
+                "second": "22",
+                "time": "09:35:22",
+                "tz": "UTC",
+                "tz_offset": "+00:00",
+                "weekday": "Monday",
+                "weekday_number": "1",
+                "weeknumber": "26",
+                "year": "2023"
+            },
+            "ansible_distribution": "Microsoft Windows Server 2022 Datacenter",
+            "ansible_distribution_major_version": "10",
+            "ansible_distribution_version": "10.0.20348.0",
+            "ansible_domain": "",
+            "ansible_env": {
+                "ALLUSERSPROFILE": "C:\\ProgramData",
+                "APPDATA": "C:\\Users\\Administrator\\AppData\\Roaming",
+                "AWS_EXECUTION_ENV": "EC2",
+                "COMPUTERNAME": "EC2AMAZ-J73RL8T",
+                "ComSpec": "C:\\Windows\\system32\\cmd.exe",
+                "CommonProgramFiles": "C:\\Program Files\\Common Files",
+                "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+                "CommonProgramW6432": "C:\\Program Files\\Common Files",
+                "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+                "EC2LAUNCH_TELEMETRY": "1",
+                "HOMEDRIVE": "C:",
+                "HOMEPATH": "\\Users\\Administrator",
+                "LOCALAPPDATA": "C:\\Users\\Administrator\\AppData\\Local",
+                "LOGONSERVER": "\\\\EC2AMAZ-J73RL8T",
+                "NUMBER_OF_PROCESSORS": "1",
+                "OS": "Windows_NT",
+                "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL",
+                "PROCESSOR_ARCHITECTURE": "AMD64",
+                "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 63 Stepping 2, GenuineIntel",
+                "PROCESSOR_LEVEL": "6",
+                "PROCESSOR_REVISION": "3f02",
+                "PROMPT": "$P$G",
+                "PSExecutionPolicyPreference": "Unrestricted",
+                "PSModulePath": "C:\\Users\\Administrator\\Documents\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\PowerShell\\Modules",
+                "PUBLIC": "C:\\Users\\Public",
+                "Path": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Amazon\\cfn-bootstrap\\;C:\\Program Files (x86)\\Microsoft SQL Server\\160\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\160\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\;C:\\Program Files (x86)\\Microsoft SQL Server\\160\\DTS\\Binn\\;C:\\Program Files\\Azure Data Studio\\bin;C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps;",
+                "ProgramData": "C:\\ProgramData",
+                "ProgramFiles": "C:\\Program Files",
+                "ProgramFiles(x86)": "C:\\Program Files (x86)",
+                "ProgramW6432": "C:\\Program Files",
+                "SystemDrive": "C:",
+                "SystemRoot": "C:\\Windows",
+                "TEMP": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp",
+                "TMP": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp",
+                "USERDOMAIN": "EC2AMAZ-J73RL8T",
+                "USERDOMAIN_ROAMINGPROFILE": "EC2AMAZ-J73RL8T",
+                "USERNAME": "Administrator",
+                "USERPROFILE": "C:\\Users\\Administrator",
+                "windir": "C:\\Windows"
+            },
+            "ansible_fqdn": "EC2AMAZ-J73RL8T",
+            "ansible_hostname": "EC2AMAZ-J73RL8T",
+            "ansible_interfaces": [
+                {
+                    "connection_name": "Ethernet 2",
+                    "default_gateway": "172.31.32.1",
+                    "dns_domain": "ap-south-1.compute.internal",
+                    "interface_index": 7,
+                    "interface_name": "AWS PV Network Device #0",
+                    "ipv4": {
+                        "address": "172.31.45.40",
+                        "prefix": "20"
+                    },
+                    "ipv6": {
+                        "address": "fe80::1b68:78b5:3dd6:7190%7",
+                        "prefix": "64"
+                    },
+                    "macaddress": "02:D9:63:10:16:78",
+                    "mtu": 9001,
+                    "speed": 1000
+                }
+            ],
+            "ansible_ip_addresses": [
+                "fe80::1b68:78b5:3dd6:7190%7",
+                "172.31.45.40"
+            ],
+            "ansible_kernel": "10.0.20348.0",
+            "ansible_lastboot": "2023-07-03 06:09:27Z",
+            "ansible_machine_id": "S-1-5-21-3142975123-2064260459-2716191798",
+            "ansible_memfree_mb": 57,
+            "ansible_memtotal_mb": 1024,
+            "ansible_netbios_name": "EC2AMAZ-J73RL8T",
+            "ansible_nodename": "EC2AMAZ-J73RL8T",
+            "ansible_os_family": "Windows",
+            "ansible_os_installation_type": "Server",
+            "ansible_os_name": "Microsoft Windows Server 2022 Datacenter",
+            "ansible_os_product_type": "server",
+            "ansible_owner_contact": "",
+            "ansible_owner_name": "EC2",
+            "ansible_pagefilefree_mb": 1068,
+            "ansible_pagefiletotal_mb": 1674,
+            "ansible_powershell_version": 5,
+            "ansible_processor": [
+                "0",
+                "GenuineIntel",
+                "Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz"
+            ],
+            "ansible_processor_cores": 1,
+            "ansible_processor_count": 1,
+            "ansible_processor_threads_per_core": 1,
+            "ansible_processor_vcpus": 1,
+            "ansible_product_name": "HVM domU",
+            "ansible_product_serial": "ec24ce73-b77e-f9ee-e386-e0f37cab1476",
+            "ansible_reboot_pending": true,
+            "ansible_swaptotal_mb": 0,
+            "ansible_system": "Win32NT",
+            "ansible_system_description": "",
+            "ansible_system_vendor": "Xen",
+            "ansible_uptime_seconds": 12357,
+            "ansible_user_dir": "C:\\Users\\Administrator",
+            "ansible_user_gecos": "",
+            "ansible_user_id": "Administrator",
+            "ansible_user_sid": "S-1-5-21-3142975123-2064260459-2716191798-500",
+            "ansible_virtualization_role": "guest",
+            "ansible_virtualization_type": "xen",
+            "ansible_win_rm_certificate_expires": "2026-06-15 18:15:15",
+            "ansible_windows_domain": "WORKGROUP",
+            "ansible_windows_domain_member": false,
+            "ansible_windows_domain_role": "Stand-alone server",
+            "gather_subset": [
+                "date_time"
+            ],
+            "module_setup": true
+        },
+        "changed": false,
+        "failed": false
+    }
+}
+2023-07-03 09:35:26,743 p=8584 u=ubuntu n=ansible | TASK [Store datetime in ddmmyyyy_hhmmss format] **********************************************************************************************
+2023-07-03 09:35:26,797 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:26,819 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:26,826 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:26,841 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => {
+    "msg": "03072023_093522"
+}
+2023-07-03 09:35:26,850 p=8584 u=ubuntu n=ansible | TASK [Connect MSSQL DB Server] ***************************************************************************************************************
+2023-07-03 09:35:26,900 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:26,927 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:26,931 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:26,979 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:26,980 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:32,831 p=8584 u=ubuntu n=ansible | changed: [ansible_remoteserver] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": true}
+2023-07-03 09:35:32,840 p=8584 u=ubuntu n=ansible | TASK [Check DB connection status successful] *************************************************************************************************
+2023-07-03 09:35:32,889 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:32,920 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:32,923 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:32,946 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=0) => {
+    "msg": "172.31.45.40 connection is successful"
+}
+2023-07-03 09:35:32,956 p=8584 u=ubuntu n=ansible | TASK [Check DB connection status failed] *****************************************************************************************************
+2023-07-03 09:35:33,003 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:33,031 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:33,036 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:33,053 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=0)  => {"ansible_loop_var": "item", "false_condition": "item != '0'", "item": "0"}
+2023-07-03 09:35:33,054 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => {"msg": "All items skipped"}
+2023-07-03 09:35:33,063 p=8584 u=ubuntu n=ansible | TASK [Get all *.sql filenames from the target location] **************************************************************************************
+2023-07-03 09:35:33,114 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:33,141 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:33,143 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:33,155 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_find to ansible.windows.win_find
+2023-07-03 09:35:33,161 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_find to ansible.windows.win_find
+2023-07-03 09:35:38,086 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => {"changed": false, "examined": 5, "files": [{"attributes": "Archive", "checksum": "26a681cd5af06cb48402c92d86c8952c6273a0a5", "creationtime": 1687954385.013765, "exists": true, "extension": ".sql", "filename": "01_Select_Stmt.sql", "hlnk_targets": [], "isarchive": true, "isdir": false, "ishidden": false, "isjunction": false, "islnk": false, "isreadonly": false, "isreg": true, "isshared": false, "lastaccesstime": 1688104914.4182603, "lastwritetime": 1688104914.4182603, "lnk_source": null, "lnk_target": null, "nlink": 1, "owner": "BUILTIN\\Administrators", "path": "C:\\sql_stmts\\01_Select_Stmt.sql", "sharename": null, "size": 41}, {"attributes": "Archive", "checksum": "78826ed5c2b0209be9ad06101fa7c5609bd92294", "creationtime": 1687954385.013765, "exists": true, "extension": ".sql", "filename": "02_Delete_Stmt.sql", "hlnk_targets": [], "isarchive": true, "isdir": false, "ishidden": false, "isjunction": false, "islnk": false, "isreadonly": false, "isreg": true, "isshared": false, "lastaccesstime": 1688365137.6897044, "lastwritetime": 1688365137.6897044, "lnk_source": null, "lnk_target": null, "nlink": 1, "owner": "BUILTIN\\Administrators", "path": "C:\\sql_stmts\\02_Delete_Stmt.sql", "sharename": null, "size": 81}, {"attributes": "Archive", "checksum": "4b326607b7b760da73ba878e4a60341b731fdf54", "creationtime": 1687954385.013765, "exists": true, "extension": ".sql", "filename": "03_Insert_Stmt.sql", "hlnk_targets": [], "isarchive": true, "isdir": false, "ishidden": false, "isjunction": false, "islnk": false, "isreadonly": false, "isreg": true, "isshared": false, "lastaccesstime": 1688105637.8205428, "lastwritetime": 1688105637.8205428, "lnk_source": null, "lnk_target": null, "nlink": 1, "owner": "BUILTIN\\Administrators", "path": "C:\\sql_stmts\\03_Insert_Stmt.sql", "sharename": null, "size": 108}, {"attributes": "Archive", "checksum": "26a681cd5af06cb48402c92d86c8952c6273a0a5", "creationtime": 1688364839.701821, "exists": true, "extension": ".sql", "filename": "04_Select_Stmt.sql", "hlnk_targets": [], "isarchive": true, "isdir": false, "ishidden": false, "isjunction": false, "islnk": false, "isreadonly": false, "isreg": true, "isshared": false, "lastaccesstime": 1688364839.701821, "lastwritetime": 1688104914.4182603, "lnk_source": null, "lnk_target": null, "nlink": 1, "owner": "BUILTIN\\Administrators", "path": "C:\\sql_stmts\\04_Select_Stmt.sql", "sharename": null, "size": 41}], "matched": 4}
+2023-07-03 09:35:38,095 p=8584 u=ubuntu n=ansible | TASK [debug] *********************************************************************************************************************************
+2023-07-03 09:35:38,146 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:38,172 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:38,174 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"false_condition": "inventory_hostname in groups['db_servers']"}
+2023-07-03 09:35:38,198 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => {
+    "file_list": {
+        "changed": false,
+        "examined": 5,
+        "failed": false,
+        "files": [
+            {
+                "attributes": "Archive",
+                "checksum": "26a681cd5af06cb48402c92d86c8952c6273a0a5",
+                "creationtime": 1687954385.013765,
+                "exists": true,
+                "extension": ".sql",
+                "filename": "01_Select_Stmt.sql",
+                "hlnk_targets": [],
+                "isarchive": true,
+                "isdir": false,
+                "ishidden": false,
+                "isjunction": false,
+                "islnk": false,
+                "isreadonly": false,
+                "isreg": true,
+                "isshared": false,
+                "lastaccesstime": 1688104914.4182603,
+                "lastwritetime": 1688104914.4182603,
+                "lnk_source": null,
+                "lnk_target": null,
+                "nlink": 1,
+                "owner": "BUILTIN\\Administrators",
+                "path": "C:\\sql_stmts\\01_Select_Stmt.sql",
+                "sharename": null,
+                "size": 41
+            },
+            {
+                "attributes": "Archive",
+                "checksum": "78826ed5c2b0209be9ad06101fa7c5609bd92294",
+                "creationtime": 1687954385.013765,
+                "exists": true,
+                "extension": ".sql",
+                "filename": "02_Delete_Stmt.sql",
+                "hlnk_targets": [],
+                "isarchive": true,
+                "isdir": false,
+                "ishidden": false,
+                "isjunction": false,
+                "islnk": false,
+                "isreadonly": false,
+                "isreg": true,
+                "isshared": false,
+                "lastaccesstime": 1688365137.6897044,
+                "lastwritetime": 1688365137.6897044,
+                "lnk_source": null,
+                "lnk_target": null,
+                "nlink": 1,
+                "owner": "BUILTIN\\Administrators",
+                "path": "C:\\sql_stmts\\02_Delete_Stmt.sql",
+                "sharename": null,
+                "size": 81
+            },
+            {
+                "attributes": "Archive",
+                "checksum": "4b326607b7b760da73ba878e4a60341b731fdf54",
+                "creationtime": 1687954385.013765,
+                "exists": true,
+                "extension": ".sql",
+                "filename": "03_Insert_Stmt.sql",
+                "hlnk_targets": [],
+                "isarchive": true,
+                "isdir": false,
+                "ishidden": false,
+                "isjunction": false,
+                "islnk": false,
+                "isreadonly": false,
+                "isreg": true,
+                "isshared": false,
+                "lastaccesstime": 1688105637.8205428,
+                "lastwritetime": 1688105637.8205428,
+                "lnk_source": null,
+                "lnk_target": null,
+                "nlink": 1,
+                "owner": "BUILTIN\\Administrators",
+                "path": "C:\\sql_stmts\\03_Insert_Stmt.sql",
+                "sharename": null,
+                "size": 108
+            },
+            {
+                "attributes": "Archive",
+                "checksum": "26a681cd5af06cb48402c92d86c8952c6273a0a5",
+                "creationtime": 1688364839.701821,
+                "exists": true,
+                "extension": ".sql",
+                "filename": "04_Select_Stmt.sql",
+                "hlnk_targets": [],
+                "isarchive": true,
+                "isdir": false,
+                "ishidden": false,
+                "isjunction": false,
+                "islnk": false,
+                "isreadonly": false,
+                "isreg": true,
+                "isshared": false,
+                "lastaccesstime": 1688364839.701821,
+                "lastwritetime": 1688104914.4182603,
+                "lnk_source": null,
+                "lnk_target": null,
+                "nlink": 1,
+                "owner": "BUILTIN\\Administrators",
+                "path": "C:\\sql_stmts\\04_Select_Stmt.sql",
+                "sharename": null,
+                "size": 41
+            }
+        ],
+        "matched": 4
+    }
+}
+2023-07-03 09:35:38,207 p=8584 u=ubuntu n=ansible | TASK [debug] *********************************************************************************************************************************
+2023-07-03 09:35:38,802 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=[''])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": [""]}
+2023-07-03 09:35:38,805 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=[''])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": [""]}
+2023-07-03 09:35:38,805 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"msg": "All items skipped"}
+2023-07-03 09:35:38,808 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"msg": "All items skipped"}
+2023-07-03 09:35:38,827 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=[''])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": [""]}
+2023-07-03 09:35:38,828 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"msg": "All items skipped"}
+2023-07-03 09:35:38,855 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['01_Select_Stmt.sql']) => {
+    "msg": "filename 01_Select_Stmt.sql"
+}
+2023-07-03 09:35:38,862 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['02_Delete_Stmt.sql']) => {
+    "msg": "filename 02_Delete_Stmt.sql"
+}
+2023-07-03 09:35:38,871 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['03_Insert_Stmt.sql']) => {
+    "msg": "filename 03_Insert_Stmt.sql"
+}
+2023-07-03 09:35:38,875 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['04_Select_Stmt.sql']) => {
+    "msg": "filename 04_Select_Stmt.sql"
+}
+2023-07-03 09:35:38,889 p=8584 u=ubuntu n=ansible | TASK [Create a dict in sqlfilename_list.yml on ansible controller] ***************************************************************************
+2023-07-03 09:35:38,976 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:38,977 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:38,989 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => {"changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:39,651 p=8584 u=ubuntu n=ansible | ok: [ansible_controller] => {"backup": "", "changed": false, "msg": ""}
+2023-07-03 09:35:39,660 p=8584 u=ubuntu n=ansible | TASK [Add filenames fetched as a listed-dict into sqlfilename_list.yml on ansible controller] ************************************************
+2023-07-03 09:35:40,087 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['01_Select_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["01_Select_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,095 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['02_Delete_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["02_Delete_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,112 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['03_Insert_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["03_Insert_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,121 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['04_Select_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["04_Select_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,123 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"changed": false, "msg": "All items skipped"}
+2023-07-03 09:35:40,134 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['01_Select_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["01_Select_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,143 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['02_Delete_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["02_Delete_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,151 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['03_Insert_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["03_Insert_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,159 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['04_Select_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["04_Select_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,161 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"changed": false, "msg": "All items skipped"}
+2023-07-03 09:35:40,177 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['01_Select_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["01_Select_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,184 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['02_Delete_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["02_Delete_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,192 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['03_Insert_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["03_Insert_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,194 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['04_Select_Stmt.sql'])  => {"ansible_loop_var": "item", "changed": false, "false_condition": "inventory_hostname in groups['localhosts']", "item": ["04_Select_Stmt.sql"], "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:40,195 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => {"changed": false, "msg": "All items skipped"}
+2023-07-03 09:35:40,412 p=8584 u=ubuntu n=ansible | ok: [ansible_controller] => (item=['01_Select_Stmt.sql']) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": ["01_Select_Stmt.sql"], "msg": ""}
+2023-07-03 09:35:40,644 p=8584 u=ubuntu n=ansible | ok: [ansible_controller] => (item=['02_Delete_Stmt.sql']) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": ["02_Delete_Stmt.sql"], "msg": ""}
+2023-07-03 09:35:40,875 p=8584 u=ubuntu n=ansible | ok: [ansible_controller] => (item=['03_Insert_Stmt.sql']) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": ["03_Insert_Stmt.sql"], "msg": ""}
+2023-07-03 09:35:41,104 p=8584 u=ubuntu n=ansible | ok: [ansible_controller] => (item=['04_Select_Stmt.sql']) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": ["04_Select_Stmt.sql"], "msg": ""}
+2023-07-03 09:35:41,115 p=8584 u=ubuntu n=ansible | TASK [Create sql_results folder if not exists] ***********************************************************************************************
+2023-07-03 09:35:41,166 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:41,195 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:41,199 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"changed": false, "false_condition": "inventory_hostname in groups['db_servers']", "skip_reason": "Conditional result was False"}
+2023-07-03 09:35:41,210 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_file to ansible.windows.win_file
+2023-07-03 09:35:41,217 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_file to ansible.windows.win_file
+2023-07-03 09:35:44,176 p=8584 u=ubuntu n=ansible | changed: [ansible_remoteserver] => {"changed": true}
+2023-07-03 09:35:44,185 p=8584 u=ubuntu n=ansible | TASK [Execute .sql file] *********************************************************************************************************************
+2023-07-03 09:35:44,324 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,333 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,351 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,363 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,365 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,369 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,382 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,397 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,409 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,411 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,421 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,429 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,438 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,443 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,444 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+2023-07-03 09:35:44,493 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:44,497 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:48,862 p=8584 u=ubuntu n=ansible | changed: [ansible_remoteserver] => (item=None) => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": true}
+2023-07-03 09:35:48,895 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:48,896 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:52,958 p=8584 u=ubuntu n=ansible | changed: [ansible_remoteserver] => (item=None) => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": true}
+2023-07-03 09:35:52,989 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:52,991 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:57,799 p=8584 u=ubuntu n=ansible | changed: [ansible_remoteserver] => (item=None) => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": true}
+2023-07-03 09:35:57,832 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:35:57,834 p=8584 u=ubuntu n=ansible | redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+2023-07-03 09:36:03,203 p=8584 u=ubuntu n=ansible | changed: [ansible_remoteserver] => (item=None) => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": true}
+2023-07-03 09:36:03,211 p=8584 u=ubuntu n=ansible | changed: [ansible_remoteserver] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": true}
+2023-07-03 09:36:03,220 p=8584 u=ubuntu n=ansible | TASK [SQL Statement execution output message if successful] **********************************************************************************
+2023-07-03 09:36:03,814 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['01_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["01_Select_Stmt", null]}
+2023-07-03 09:36:03,823 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['02_Delete_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["02_Delete_Stmt", null]}
+2023-07-03 09:36:03,839 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['03_Insert_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["03_Insert_Stmt", null]}
+2023-07-03 09:36:03,842 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['01_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["01_Select_Stmt", null]}
+2023-07-03 09:36:03,855 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['02_Delete_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["02_Delete_Stmt", null]}
+2023-07-03 09:36:03,857 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['04_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["04_Select_Stmt", null]}
+2023-07-03 09:36:03,859 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"msg": "All items skipped"}
+2023-07-03 09:36:03,876 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['03_Insert_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["03_Insert_Stmt", null]}
+2023-07-03 09:36:03,885 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['04_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["04_Select_Stmt", null]}
+2023-07-03 09:36:03,887 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"msg": "All items skipped"}
+2023-07-03 09:36:03,903 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['01_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["01_Select_Stmt", null]}
+2023-07-03 09:36:03,910 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['02_Delete_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["02_Delete_Stmt", null]}
+2023-07-03 09:36:03,919 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['03_Insert_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["03_Insert_Stmt", null]}
+2023-07-03 09:36:03,924 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['04_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["04_Select_Stmt", null]}
+2023-07-03 09:36:03,925 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"msg": "All items skipped"}
+2023-07-03 09:36:03,948 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['01_Select_Stmt', 0]) => {
+    "msg": "01_Select_Stmt.sql executed successfully"
+}
+2023-07-03 09:36:03,955 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['02_Delete_Stmt', 0]) => {
+    "msg": "02_Delete_Stmt.sql executed successfully"
+}
+2023-07-03 09:36:03,966 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['03_Insert_Stmt', 0]) => {
+    "msg": "03_Insert_Stmt.sql executed successfully"
+}
+2023-07-03 09:36:03,972 p=8584 u=ubuntu n=ansible | ok: [ansible_remoteserver] => (item=['04_Select_Stmt', 0]) => {
+    "msg": "04_Select_Stmt.sql executed successfully"
+}
+2023-07-03 09:36:03,981 p=8584 u=ubuntu n=ansible | TASK [SQL Statement execution output message if failed] **************************************************************************************
+2023-07-03 09:36:04,554 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['01_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["01_Select_Stmt", null]}
+2023-07-03 09:36:04,568 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['02_Delete_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["02_Delete_Stmt", null]}
+2023-07-03 09:36:04,583 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['03_Insert_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["03_Insert_Stmt", null]}
+2023-07-03 09:36:04,588 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['01_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["01_Select_Stmt", null]}
+2023-07-03 09:36:04,598 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => (item=['04_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["04_Select_Stmt", null]}
+2023-07-03 09:36:04,600 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['02_Delete_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["02_Delete_Stmt", null]}
+2023-07-03 09:36:04,601 p=8584 u=ubuntu n=ansible | skipping: [ansible_controller] => {"msg": "All items skipped"}
+2023-07-03 09:36:04,619 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['03_Insert_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["03_Insert_Stmt", null]}
+2023-07-03 09:36:04,628 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => (item=['04_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["04_Select_Stmt", null]}
+2023-07-03 09:36:04,630 p=8584 u=ubuntu n=ansible | skipping: [ansible_target1] => {"msg": "All items skipped"}
+2023-07-03 09:36:04,642 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['01_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["01_Select_Stmt", null]}
+2023-07-03 09:36:04,652 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['02_Delete_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["02_Delete_Stmt", null]}
+2023-07-03 09:36:04,660 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['03_Insert_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["03_Insert_Stmt", null]}
+2023-07-03 09:36:04,664 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => (item=['04_Select_Stmt', None])  => {"ansible_loop_var": "item", "false_condition": "inventory_hostname in groups['db_servers']", "item": ["04_Select_Stmt", null]}
+2023-07-03 09:36:04,666 p=8584 u=ubuntu n=ansible | skipping: [ansible_target2] => {"msg": "All items skipped"}
+2023-07-03 09:36:04,677 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['01_Select_Stmt', 0])  => {"ansible_loop_var": "item", "false_condition": "item.1 != 0", "item": ["01_Select_Stmt", 0]}
+2023-07-03 09:36:04,683 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['02_Delete_Stmt', 0])  => {"ansible_loop_var": "item", "false_condition": "item.1 != 0", "item": ["02_Delete_Stmt", 0]}
+2023-07-03 09:36:04,690 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['03_Insert_Stmt', 0])  => {"ansible_loop_var": "item", "false_condition": "item.1 != 0", "item": ["03_Insert_Stmt", 0]}
+2023-07-03 09:36:04,692 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => (item=['04_Select_Stmt', 0])  => {"ansible_loop_var": "item", "false_condition": "item.1 != 0", "item": ["04_Select_Stmt", 0]}
+2023-07-03 09:36:04,693 p=8584 u=ubuntu n=ansible | skipping: [ansible_remoteserver] => {"msg": "All items skipped"}
+2023-07-03 09:36:04,763 p=8584 u=ubuntu n=ansible | PLAY RECAP ***********************************************************************************************************************************
+2023-07-03 09:36:04,764 p=8584 u=ubuntu n=ansible | ansible_controller         : ok=2    changed=0    unreachable=0    failed=0    skipped=13   rescued=0    ignored=0   
+2023-07-03 09:36:04,764 p=8584 u=ubuntu n=ansible | ansible_remoteserver       : ok=11   changed=3    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+2023-07-03 09:36:04,765 p=8584 u=ubuntu n=ansible | ansible_target1            : ok=0    changed=0    unreachable=0    failed=0    skipped=15   rescued=0    ignored=0   
+2023-07-03 09:36:04,765 p=8584 u=ubuntu n=ansible | ansible_target2            : ok=0    changed=0    unreachable=0    failed=0    skipped=15   rescued=0    ignored=0   

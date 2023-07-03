@@ -1,4 +1,5 @@
 sqlfilename:
-- Delete_Stmt.sql
-- Insert_Stmt.sql
-- Select_Stmt.sql
+- 01_Select_Stmt.sql
+- 02_Delete_Stmt.sql
+- 03_Insert_Stmt.sql
+- 04_Select_Stmt.sql

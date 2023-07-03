@@ -1,3 +1,8 @@
+  ############################# MSSQL DB WORKFLOW TASKS #################################################
+  #  TASK1: Connect MSSQL DB Server using mssql_db module 
+  #  TASK2: Import .sql file 
+  #  TASK3: Check import is successful
+  #######################################################################################################
 ---
 - name: 'DB_playbook v0.3'
   hosts: all
@@ -48,7 +53,7 @@
   #   when: inventory_hostname in groups['remote_servers']
   #   any_errors_fatal: true
 
-  # - name: 'connect MSSQL db'
+  # - name: 'execute .sql query from mssql_query.yml on controller'
   #   community.general.mssql_script:
   #     login_user: "{{ mssql_login_user }}"
   #     login_password: "{{ mssql_login_password }}"

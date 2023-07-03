@@ -1,4 +1,4 @@
-archive: 'N'
+archive_flag: 'OFF'
 file_loc: 'C:\src_loc\'
 tmp_loc: '/home/ubuntu/ansible/tmp/'
 target_loc: 'C:\{{ inventory_hostname }}\'
