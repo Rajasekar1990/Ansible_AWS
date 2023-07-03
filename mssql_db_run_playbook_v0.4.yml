@@ -124,7 +124,7 @@
     when: inventory_hostname in groups['db_servers']
     any_errors_fatal: true
     
-  - name: 'Execute .sql file'
+  - name: 'Execute IS {{ sqlfilename | replace(".sql", "") }}.sql file'
     win_shell:
        'Sqlcmd -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
     register: output
@@ -139,7 +139,7 @@
   #   no_log: true
   #   when: 
   #     - inventory_hostname in groups['db_servers']
-  - name: 'SQL Statement execution output message if successful'
+  - name: 'IS {{ sqlfilename | replace(".sql", "") }}.sql execution successful'
     debug: msg='{{ item.0 }}.sql executed successfully'
     when: 
       - inventory_hostname in groups['db_servers']
@@ -147,7 +147,7 @@
     with_together:
       - '{{ sqlfilename | replace(".sql", "") }}'
       - "{{ output | json_query('results[*].rc') }}"
-  - name: 'SQL Statement execution output message if failed'
+  - name: 'IS {{ sqlfilename | replace(".sql", "") }}.sql execution failed'
     debug: msg='{{ item.0 }}.sql executed failed'
     when: 
       - inventory_hostname in groups['db_servers']

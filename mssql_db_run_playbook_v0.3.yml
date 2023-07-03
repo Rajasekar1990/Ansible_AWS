@@ -14,19 +14,6 @@
   - sqlfilename_list.yml
   - mssql_query.yml
   tasks:
-  # - name: 'Fetch current date'
-  #   ansible.builtin.setup:
-  #     gather_subset:
-  #       - 'date_time'
-  #   register: 'datetime_var'
-  #   when: inventory_hostname in groups['remote_servers'] 
-  # - name: 'Store ansible_facts of ansible targets'
-  #   debug: var=datetime_var
-  #   when: inventory_hostname in groups['remote_servers']
-  # - name: 'Store datetime in ddmmyyyy_hhmmss format'
-  #   debug: msg='{{ datetime_var.ansible_facts.ansible_date_time.day }}{{ datetime_var.ansible_facts.ansible_date_time.month }}{{ datetime_var.ansible_facts.ansible_date_time.year }}_{{ datetime_var.ansible_facts.ansible_date_time.hour }}{{ datetime_var.ansible_facts.ansible_date_time.minute }}{{ datetime_var.ansible_facts.ansible_date_time.second }}'
-  #   when: inventory_hostname in groups['remote_servers']
-  
   # - name: 'Check .sql syntax before execution'
   #   win_lineinfile:
   #     path: '{{ sql_filepath }}'
@@ -66,7 +53,7 @@
   #   with_items:
   #       - '{{ querylist }}'
 
-  - name: 'execute .sql file from controller'
+  - name: 'execute {{ item }} file from controller'
     community.general.mssql_db:
       login_host: '{{ mssql_login_host }}'
       login_user: '{{ mssql_login_user }}'
@@ -86,14 +73,14 @@
     when: inventory_hostname in groups['localhosts']
     with_items:
       - '/home/ubuntu/ansible/sql_file1.sql'
-  - debug: msg='.sql file executed successfully'
+  - debug: msg='{{ item.0 }} file executed successfully'
     when: 
       - inventory_hostname in groups['localhosts']
       - item.1 == "import successful"
     with_together:
       - '/home/ubuntu/ansible/sql_file1.sql'
       - "{{ sql_query_output | json_query('results[*].msg') }}"
-  - debug: msg='.sql file executed failed with exception {{ sql_query_output | json_query('results[*].exception') }}"'
+  - debug: msg='{{ item.0 }} file executed failed with exception {{ sql_query_output | json_query('results[*].exception') }}"'
     when: 
       - inventory_hostname in groups['localhosts']
       - item.1 != "import successful"
@@ -112,34 +99,3 @@
   #     target: /home/ubuntu/ansible/dump1.sql
   #   register: dump_output
   #   when: inventory_hostname in groups['localhosts']
-    
-  # - name: 'Execute .sql file'
-  #   win_shell:
-  #      'Sqlcmd -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
-  #   register: output
-  #   when: 
-  #     - inventory_hostname in groups['remote_servers']
-  #   with_items:
-  #     - '{{ sqlfilename | replace(".sql", "") }}'
-
-  # - name: 'Statement execution status'
-  #   debug: var=output
-  #   when: 
-  #     - inventory_hostname in groups['remote_servers']
-  # - name: 'Statement execution output message if successful'
-  #   debug: msg='{{ item.0 }}.sql executed successfully'
-  #   when: 
-  #     - inventory_hostname in groups['remote_servers']
-  #     - item.1 == 0
-  #   with_together:
-  #     - '{{ sqlfilename | replace(".sql", "") }}'
-  #     - "{{ output | json_query('results[*].rc') }}"
-
-  # - name: 'Statement execution output message if failed'
-  #   debug: msg='{{ item.0 }}.sql executed failed'
-  #   when: 
-  #     - inventory_hostname in groups['remote_servers']
-  #     - item.1 != 0
-  #   with_together:
-  #     - '{{ sqlfilename | replace(".sql", "") }}'
-  #     - "{{ output | json_query('results[*].rc') }}"
