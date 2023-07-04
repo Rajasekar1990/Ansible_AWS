@@ -1,4 +1,4 @@
-  ############################# MSSQL DB WORKFLOW TASKS #################################################
+  ############################# MSSQL DB WORKFLOW TASKS fully executed from controller' #################
   #  TASK1: Fetch Current Date and Time to pass when needed to create unique naming for files
   #  TASK2: Connect MSSQL DB Server using Sqlcmd using db cred
   #  TASK3: Check db connection status is successful
@@ -10,10 +10,10 @@
   #  TASK9: Check SQL statement execution status
   #######################################################################################################
 ---
-- name: 'DB_playbook v0.4 executed from ansible targets'
+- name: 'DB_playbook v0.4.1 fully executed from controller'
   hosts: all
   # connection: remote
-  become_method: runas
+  # become: true
   gather_facts: no
   # vars:
   # -
@@ -27,39 +27,39 @@
         - 'date_time'
     register: 'datetime_var'
     no_log: true
-    when: inventory_hostname in groups['db_servers'] 
+    when: inventory_hostname in groups['localhosts'] 
   - name: 'Store ansible_facts of ansible targets'
     debug: var=datetime_var
     no_log: true
-    when: inventory_hostname in groups['db_servers']
+    when: inventory_hostname in groups['localhosts']
   - name: 'Store datetime in ddmmyyyy_hhmmss format'
     debug: msg='{{ datetime_var.ansible_facts.ansible_date_time.day }}{{ datetime_var.ansible_facts.ansible_date_time.month }}{{ datetime_var.ansible_facts.ansible_date_time.year }}_{{ datetime_var.ansible_facts.ansible_date_time.hour }}{{ datetime_var.ansible_facts.ansible_date_time.minute }}{{ datetime_var.ansible_facts.ansible_date_time.second }}'
-    when: inventory_hostname in groups['db_servers']
+    when: inventory_hostname in groups['localhosts']
   
   - name: 'Connect MSSQL DB Server'
-    win_shell:
-      'Sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }}'
+    shell:
+      'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }}'
     no_log: true
     register: connection_check
-    when: inventory_hostname in groups['db_servers']
+    when: inventory_hostname in groups['localhosts']
     any_errors_fatal: true
 
   # - name: 'Check DB connection status'
   #   debug: var=connection_check
   #   no_log: true
   #   when: 
-  #     - inventory_hostname in groups['db_servers']
+  #     - inventory_hostname in groups['localhosts']
   - name: 'Check DB connection status is successful'
     debug: msg='{{ mssql_login_host }} connection is successful'
     when: 
-      - inventory_hostname in groups['db_servers']
+      - inventory_hostname in groups['localhosts']
       - item == '0'
     with_items:
       - '{{ connection_check.rc }}'
   - name: 'Check DB connection status is failed'
     debug: msg='{{ mssql_login_host }} connection is failed'
     when: 
-      - inventory_hostname in groups['db_servers']
+      - inventory_hostname in groups['localhosts']
       - item != '0'
     with_items:
       - '{{ connection_check.rc }}'
@@ -75,31 +75,31 @@
   #   # changed_when: false
   #   check_mode: true
   #   # failed_when: "'COMMIT' in presence.msg"
-  #   when: inventory_hostname in groups['db_servers']
+  #   when: inventory_hostname in groups['localhosts']
   #   with_items:
   #     - '{{ sqlfilename | replace(".sql", "") }}'
 
   # - name: 'Show result, if not found'
   #   debug:
   #     var: presence
-  #   when: inventory_hostname in groups['db_servers']
+  #   when: inventory_hostname in groups['localhosts']
   ###############################################################################
   
   - name: 'Get all *.sql filenames from the source location'
-    win_find:
-      paths: '{{ sql_srcpath }}/'
+    find:
+      paths: '{{ sql_srcpath }}'
       patterns: [ '*.sql' ]
     register: file_list
     no_log: true
-    when: inventory_hostname in groups['db_servers']
+    when: inventory_hostname in groups['localhosts']
   - debug: var=file_list
     no_log: true
-    when: inventory_hostname in groups['db_servers']
+    when: inventory_hostname in groups['localhosts']
   - debug: msg="filename {{ item.0}}" 
     when: 
-      - inventory_hostname in groups['db_servers'] 
+      - inventory_hostname in groups['localhosts'] 
     with_together:
-      - "{{ file_list | json_query('files[*].filename') }}"
+      - "{{ file_list | json_query('files[*].path') | replace( sql_srcpath, '') }}"
 
   - name: 'Create a dict in sqlfilename_list.yml on ansible controller'
     copy:
@@ -119,22 +119,23 @@
     when: 
       - inventory_hostname in groups['localhosts']
     with_together:
-      - "{{ hostvars.ansible_remoteserver.file_list | json_query('files[*].filename') }}"
+      # - "{{ hostvars.localhosts.file_list | json_query('files[*].filename') }}"
+      - "{{ file_list | json_query('files[*].path') | replace( sql_srcpath, '') }}"
       
   - name: 'Create sql_results folder if not exists'
-    win_file:
+    file:
       path: '{{ sql_dirpath }}'
       state: directory
-    when: inventory_hostname in groups['db_servers']
+    when: inventory_hostname in groups['localhosts']
     any_errors_fatal: true
     
   - name: 'Execute {{ sqlfilename | replace(".sql", "") }}.sql file'
-    win_shell:
-       'Sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
+    shell:
+       'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
     register: output
-    no_log: true
+    no_log: false
     when: 
-      - inventory_hostname in groups['db_servers']
+      - inventory_hostname in groups['localhosts']
     with_together:
       - '{{ sqlfilename | replace(".sql", "") }}'
 
@@ -142,11 +143,11 @@
   #   debug: var=output
   #   no_log: true
   #   when: 
-  #     - inventory_hostname in groups['db_servers']
+  #     - inventory_hostname in groups['localhosts']
   - name: 'Is {{ sqlfilename | replace(".sql", "") }}.sql execution successful'
     debug: msg='{{ item.0 }}.sql executed successfully'
     when: 
-      - inventory_hostname in groups['db_servers']
+      - inventory_hostname in groups['localhosts']
       - item.1 == 0
     with_together:
       - '{{ sqlfilename | replace(".sql", "") }}'
@@ -154,7 +155,7 @@
   - name: 'Is {{ sqlfilename | replace(".sql", "") }}.sql execution failed'
     debug: msg='{{ item.0 }}.sql executed failed'
     when: 
-      - inventory_hostname in groups['db_servers']
+      - inventory_hostname in groups['localhosts']
       - item.1 != 0
     with_together:
       - '{{ sqlfilename | replace(".sql", "") }}'

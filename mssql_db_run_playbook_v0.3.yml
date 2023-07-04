@@ -1,10 +1,10 @@
-  ############################# MSSQL DB WORKFLOW TASKS #################################################
+  ############################# MSSQL DB WORKFLOW TASKS fully using mssql ansible module #################################################
   #  TASK1: Connect MSSQL DB Server using mssql_db module 
   #  TASK2: Import .sql file 
   #  TASK3: Check import is successful
   #######################################################################################################
 ---
-- name: 'DB_playbook v0.3'
+- name: 'DB_playbook v0.3 fully using mssql ansible module'
   hosts: all
   # connection: remote
   become_method: runas

@@ -39,7 +39,7 @@
     debug: msg='{{ date_var.ansible_facts.ansible_date_time.day }}{{ date_var.ansible_facts.ansible_date_time.month }}{{ date_var.ansible_facts.ansible_date_time.year }}'
     when: inventory_hostname in groups['win_targets']
   
-  - name: 'Get all *.jar filenames from the target location'
+  - name: 'Get all *.jar filenames from source location'
     win_find:
       paths: '{{ file_loc }}'
       patterns: [ '*.jar' ]
