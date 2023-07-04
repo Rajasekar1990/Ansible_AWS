@@ -54,11 +54,11 @@
       - "{{ file_list | json_query('files[*].filename') }}"
 
   - name: 'Create a dict in filename_list.yml on ansible controller'
-    lineinfile:
-      path: '/home/ubuntu/ansible/filename_list.yml'
-      create: true
-      line: 'filename:'
-      insertbefore: "BOF"
+    copy:
+      content: 'filename:'
+      dest: '/home/ubuntu/ansible/filename_list.yml'
+      remote_src: false
+      local_follow: false
     when: 
       - inventory_hostname in groups['localhosts']
 

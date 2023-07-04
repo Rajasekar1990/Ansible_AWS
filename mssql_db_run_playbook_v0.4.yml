@@ -47,14 +47,14 @@
   #   no_log: true
   #   when: 
   #     - inventory_hostname in groups['db_servers']
-  - name: 'Check DB connection status successful'
+  - name: 'Check DB connection status is successful'
     debug: msg='{{ mssql_login_host }} connection is successful'
     when: 
       - inventory_hostname in groups['db_servers']
       - item == '0'
     with_items:
       - '{{ connection_check.rc }}'
-  - name: 'Check DB connection status failed'
+  - name: 'Check DB connection status is failed'
     debug: msg='{{ mssql_login_host }} connection is failed'
     when: 
       - inventory_hostname in groups['db_servers']
@@ -96,13 +96,13 @@
       - inventory_hostname in groups['db_servers'] 
     with_together:
       - "{{ file_list | json_query('files[*].filename') }}"
-  
+
   - name: 'Create a dict in sqlfilename_list.yml on ansible controller'
-    lineinfile:
-      path: '/home/ubuntu/ansible/sqlfilename_list.yml'
-      create: true
-      line: 'sqlfilename:'
-      insertbefore: "BOF"
+    copy:
+      content: 'sqlfilename:'
+      dest: '/home/ubuntu/ansible/sqlfilename_list.yml'
+      remote_src: false
+      local_follow: false
     when: 
       - inventory_hostname in groups['localhosts']
 
@@ -124,9 +124,9 @@
     when: inventory_hostname in groups['db_servers']
     any_errors_fatal: true
     
-  - name: 'Execute IS {{ sqlfilename | replace(".sql", "") }}.sql file'
+  - name: 'Execute {{ sqlfilename | replace(".sql", "") }}.sql file'
     win_shell:
-       'Sqlcmd -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
+       'Sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
     register: output
     no_log: true
     when: 
@@ -139,7 +139,7 @@
   #   no_log: true
   #   when: 
   #     - inventory_hostname in groups['db_servers']
-  - name: 'IS {{ sqlfilename | replace(".sql", "") }}.sql execution successful'
+  - name: 'Is {{ sqlfilename | replace(".sql", "") }}.sql execution successful'
     debug: msg='{{ item.0 }}.sql executed successfully'
     when: 
       - inventory_hostname in groups['db_servers']
@@ -147,7 +147,7 @@
     with_together:
       - '{{ sqlfilename | replace(".sql", "") }}'
       - "{{ output | json_query('results[*].rc') }}"
-  - name: 'IS {{ sqlfilename | replace(".sql", "") }}.sql execution failed'
+  - name: 'Is {{ sqlfilename | replace(".sql", "") }}.sql execution failed'
     debug: msg='{{ item.0 }}.sql executed failed'
     when: 
       - inventory_hostname in groups['db_servers']
