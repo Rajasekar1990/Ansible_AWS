@@ -61,31 +61,31 @@
       login_port: '{{ mssql_port }}'
       name: '{{ mssql_db }}'
       state: import
-      target: '{{ item }}'
+      target: '{{ item.0 }}'
       autocommit: true
     register: sql_query_output
     ignore_errors: true
     when: inventory_hostname in groups['localhosts']
-    with_items:
-      - '/home/ubuntu/ansible/sql_file1.sql'
+    with_together:
+      - '/home/ubuntu/ansible/sql_stmts/New_folder/sql_file1.sql'
 
   - debug: var=sql_query_output
     when: inventory_hostname in groups['localhosts']
-    with_items:
-      - '/home/ubuntu/ansible/sql_file1.sql'
+    with_together:
+      - '/home/ubuntu/ansible/sql_stmts/New_folder/sql_file1.sql'
   - debug: msg='{{ item.0 }} file executed successfully'
     when: 
       - inventory_hostname in groups['localhosts']
       - item.1 == "import successful"
     with_together:
-      - '/home/ubuntu/ansible/sql_file1.sql'
+      - '/home/ubuntu/ansible/sql_stmts/New_folder/sql_file1.sql'
       - "{{ sql_query_output | json_query('results[*].msg') }}"
   - debug: msg='{{ item.0 }} file executed failed with exception {{ sql_query_output | json_query('results[*].exception') }}"'
     when: 
       - inventory_hostname in groups['localhosts']
       - item.1 != "import successful"
     with_together:
-      - '/home/ubuntu/ansible/sql_file1.sql'
+      - '/home/ubuntu/ansible/sql_stmts/New_folder/sql_file1.sql'
       - "{{ sql_query_output | json_query('results[*].msg') }}"
 
   # - name: 'dump file to database {{ mssql_db }}'

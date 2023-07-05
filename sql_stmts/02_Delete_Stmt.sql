@@ -1,0 +1,3 @@
+BEGIN TRANSACTION;
+DELETE FROM [test_db].[dbo].[namelist];
+COMMIT TRANSACTION;

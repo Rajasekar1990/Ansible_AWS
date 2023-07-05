@@ -31,9 +31,11 @@
       gather_subset:
         - 'date_time'
     register: 'date_var'
+    no_log: true
     when: inventory_hostname in groups['win_targets']
   - name: 'store ansible_facts of ansible targets'
     debug: var=date_var
+    no_log: true
     when: inventory_hostname in groups['win_targets']
   - name: 'create a variable to store date'
     debug: msg='{{ date_var.ansible_facts.ansible_date_time.day }}{{ date_var.ansible_facts.ansible_date_time.month }}{{ date_var.ansible_facts.ansible_date_time.year }}'
@@ -44,10 +46,12 @@
       paths: '{{ file_loc }}'
       patterns: [ '*.jar' ]
     register: file_list
+    no_log: true
     when: inventory_hostname in groups['remote_servers']
   - debug: var=file_list
+    no_log: true
     when: inventory_hostname in groups['remote_servers']
-  - debug: msg="filename {{ item.0}}" 
+  - debug: msg="filename is {{ item.0}}" 
     when: 
       - inventory_hostname in groups['remote_servers'] 
     with_together:

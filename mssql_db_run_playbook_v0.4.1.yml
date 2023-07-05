@@ -90,17 +90,18 @@
       paths: '{{ sql_srcpath }}'
       patterns: [ '*.sql' ]
     register: file_list
-    no_log: true
+    no_log: false
     when: inventory_hostname in groups['localhosts']
   - debug: var=file_list
-    no_log: true
+    no_log: false
     when: inventory_hostname in groups['localhosts']
   - debug: msg="filename {{ item.0}}" 
     when: 
       - inventory_hostname in groups['localhosts'] 
     with_together:
-      - "{{ file_list | json_query('files[*].path') | replace( sql_srcpath, '') }}"
-
+      # - "{{ file_list | json_query('files[*].path') | replace( sql_srcpath, '') }}"
+      -  "{{ file_list.files | sort(attribute='path') | map(attribute='path') | replace( sql_srcpath, '') }}"
+  
   - name: 'Create a dict in sqlfilename_list.yml on ansible controller'
     copy:
       content: 'sqlfilename:'
@@ -120,7 +121,8 @@
       - inventory_hostname in groups['localhosts']
     with_together:
       # - "{{ hostvars.localhosts.file_list | json_query('files[*].filename') }}"
-      - "{{ file_list | json_query('files[*].path') | replace( sql_srcpath, '') }}"
+      # - "{{ file_list | json_query('files[*].path') | replace( sql_srcpath, '') }}"
+      -  "{{ file_list.files | sort(attribute='path') | map(attribute='path') | replace( sql_srcpath, '') }}"
       
   - name: 'Create sql_results folder if not exists'
     file:
@@ -133,7 +135,7 @@
     shell:
        'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
     register: output
-    no_log: false
+    no_log: true
     when: 
       - inventory_hostname in groups['localhosts']
     with_together:
