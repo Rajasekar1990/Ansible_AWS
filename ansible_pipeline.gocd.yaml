@@ -6,12 +6,12 @@ pipelines:
     lock_behavior: unlockWhenFinished
     display_order: -1
     environment_variables:
-      playbook_name: ft_playbook_v0.7.yml
-      archive_flag: OFF
-      file_loc: C:\src_loc\
-      tmp_loc: /home/ubuntu/ansible/tmp/
-      target_loc: C:\{{ inventory_hostname }}\
-      file_size: 2k
+      Playbook_name: ft_playbook_v0.7.yml
+      Archive_flag: OFF
+      File_loc: C:\src_loc\
+      Tmp_loc: /home/ubuntu/ansible/tmp/
+      Target_loc: C:\{{ inventory_hostname }}\
+      File_size: 2k
     secure_variables:
     materials:
       git-e912034:
@@ -20,7 +20,8 @@ pipelines:
         shallow_clone: false
         auto_update: true
         branch: main
-        password: Shiva2889$
+        password: AES:tyM62jnM4IMK9AMLfWYHmg==:l8lHguVKMszpxWcJoM3ayA==
+        destination: gocd_ansible
     stages:
     - Agent_Check:
         fetch_materials: true
@@ -35,39 +36,45 @@ pipelines:
             tasks:
             - exec: 
                 arguments:
-                - Ready to execute ansible playbook ${playbook_name}
+                - Ready to execute ansible playbook ${Playbook_name}
                 command: echo
                 run_if: passed
-    - File_Transfer:
-        fetch_materials: true
-        keep_artifacts: false
-        clean_workspace: false
-        approval:
-          type: success
-          allow_only_on_success: true
-        jobs:
-          Run_FT_Playbook:
-            timeout: 0
-            artifacts:
-            - build:
-                source: ansible_log*
-                destination: ''
-            tasks:
-            - exec: 
-                arguments:
-                - -c
-                - cd /
-                command: /bin/bash
-                run_if: passed
             - exec:
-                arguments:
-                - -c
-                - cd /home/ubuntu/ansible
-                command: /bin/bash
+                command: pwd
                 run_if: passed
-            - exec:
-                arguments:
-                - -c
-                - ansible-playbook -i inventory ${playbook_name} -vv
-                command: /bin/bash
-                run_if: passed
+    # - File_Transfer:
+    #     fetch_materials: true
+    #     keep_artifacts: false
+    #     clean_workspace: false
+    #     approval:
+    #       type: success
+    #       allow_only_on_success: true
+    #     jobs:
+    #       Run_FT_Playbook:
+    #         timeout: 0
+    #         artifacts:
+    #         - build:
+    #             source: ansible_log*
+    #             destination: ''
+    #         tasks:
+    #         - exec: 
+    #             arguments:
+    #             - -c
+    #             - cd /
+    #             command: /bin/bash
+    #             working_directory: gocd_ansible
+    #             run_if: passed
+    #         - exec:
+    #             arguments:
+    #             - -c
+    #             - cd /home/ubuntu/ansible
+    #             command: /bin/bash
+    #             working_directory: gocd_ansible
+    #             run_if: passed
+    #         - exec:
+    #             arguments:
+    #             - -c
+    #             - ansible-playbook -i inventory ${playbook_name} -vv
+    #             command: /bin/bash
+    #             working_directory: gocd_ansible
+    #             run_if: passed
