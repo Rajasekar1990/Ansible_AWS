@@ -22,13 +22,29 @@ pipelines:
         branch: main
         password: Shiva2889$
     stages:
-    - File_Transfer:
+    - Agent_Check:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
         approval:
           type: manual
           allow_only_on_success: false
+        jobs:
+          Agent_validate:
+            timeout: 0
+            tasks:
+            - exec: 
+                arguments:
+                - echo 'Ready to execute ansible playbook ${playbook_name}'
+                command: /bin/bash
+                run_if: passed
+    - File_Transfer:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: true
         jobs:
           Run_FT_Playbook:
             timeout: 0
@@ -44,7 +60,7 @@ pipelines:
                 run_if: passed
             - exec:
                 arugumets:
-                - cd ansible
+                - cd /home/ubuntu/ansible
                 command: /bin/bash
                 run_if: passed
             - exec:
