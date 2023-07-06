@@ -21,7 +21,7 @@ pipelines:
         auto_update: true
         branch: main
         password: AES:tyM62jnM4IMK9AMLfWYHmg==:l8lHguVKMszpxWcJoM3ayA==
-        destination: gocd_ansible
+        # destination: gocd_ansible
     stages:
     - Agent_Check:
         fetch_materials: true
@@ -36,7 +36,7 @@ pipelines:
             tasks:
             - exec: 
                 arguments:
-                - Ready to execute ansible playbook ${Playbook_name}
+                - Ready to execute ansible playbook $Playbook_name 
                 command: echo
                 run_if: passed
             - exec:
@@ -62,19 +62,19 @@ pipelines:
     #             - -c
     #             - cd /
     #             command: /bin/bash
-    #             working_directory: gocd_ansible
+    #             # working_directory: gocd_ansible
     #             run_if: passed
     #         - exec:
     #             arguments:
     #             - -c
     #             - cd /home/ubuntu/ansible
     #             command: /bin/bash
-    #             working_directory: gocd_ansible
+    #             # working_directory: gocd_ansible
     #             run_if: passed
     #         - exec:
     #             arguments:
     #             - -c
     #             - ansible-playbook -i inventory ${playbook_name} -vv
     #             command: /bin/bash
-    #             working_directory: gocd_ansible
+    #             # working_directory: gocd_ansible
     #             run_if: passed
