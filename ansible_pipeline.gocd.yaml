@@ -35,8 +35,8 @@ pipelines:
             tasks:
             - exec: 
                 arguments:
-                - echo 'Ready to execute ansible playbook ${playbook_name}'
-                command: /bin/bash
+                - Ready to execute ansible playbook ${playbook_name}
+                command: echo
                 run_if: passed
     - File_Transfer:
         fetch_materials: true
@@ -55,16 +55,19 @@ pipelines:
             tasks:
             - exec: 
                 arguments:
+                - -c
                 - cd /
                 command: /bin/bash
                 run_if: passed
             - exec:
                 arugumets:
+                - -c
                 - cd /home/ubuntu/ansible
                 command: /bin/bash
                 run_if: passed
             - exec:
                 arguments:
+                - -c
                 - ansible-playbook -i inventory ${playbook_name} -vv
                 command: /bin/bash
                 run_if: passed
