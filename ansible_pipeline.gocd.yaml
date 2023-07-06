@@ -49,6 +49,6 @@ pipelines:
                 run_if: passed
             - exec:
                 arguments:
-                - ansible-playbook -i inventory ${{playbook_name}} -vv
+                - ansible-playbook -i inventory ${playbook_name} -vv
                 command: /bin/bash
                 run_if: passed
