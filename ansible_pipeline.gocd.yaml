@@ -36,8 +36,9 @@ pipelines:
             tasks:
             - exec: 
                 arguments:
-                - Ready to execute ansible playbook $Playbook_name 
-                command: echo
+                - c
+                - echo 'Ready to execute ansible playbook ${Playbook_name} ${Archive_flag} ${File_loc}'
+                command: /bin/bash
                 run_if: passed
             - exec:
                 command: pwd
