@@ -6,12 +6,14 @@ pipelines:
     lock_behavior: unlockWhenFinished
     display_order: -1
     environment_variables:
-      Playbook_name: 'ft_playbook_v0.7.yml'
+      Playbook_name: 'ft_playbook_gocd_v0.7.yml'
       Archive_flag: OFF
       File_loc: 'C:\src_loc\'
       Tmp_loc: '/tmp/'
       Target_loc: 'C:\{{ inventory_hostname }}\'
       File_size: '2k'
+      Ansible_logpath: '/ansible_log.log'
+      Vault_password_file: secrets.yml
     secure_variables:
     materials:
       git-e912034:
@@ -43,39 +45,25 @@ pipelines:
             - exec:
                 command: pwd
                 run_if: passed
-    # - File_Transfer:
-    #     fetch_materials: true
-    #     keep_artifacts: false
-    #     clean_workspace: false
-    #     approval:
-    #       type: success
-    #       allow_only_on_success: true
-    #     jobs:
-    #       Run_FT_Playbook:
-    #         timeout: 0
-    #         artifacts:
-    #         - build:
-    #             source: ansible_log*
-    #             destination: ''
-    #         tasks:
-    #         - exec: 
-    #             arguments:
-    #             - -c
-    #             - cd /
-    #             command: /bin/bash
-    #             # working_directory: gocd_ansible
-    #             run_if: passed
-    #         - exec:
-    #             arguments:
-    #             - -c
-    #             - cd /home/ubuntu/ansible
-    #             command: /bin/bash
-    #             # working_directory: gocd_ansible
-    #             run_if: passed
-    #         - exec:
-    #             arguments:
-    #             - -c
-    #             - ansible-playbook -i inventory ${playbook_name} -vv
-    #             command: /bin/bash
-    #             # working_directory: gocd_ansible
-    #             run_if: passed
+    - File_Transfer:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: true
+        jobs:
+          Run_FT_Playbook:
+            timeout: 0
+            artifacts:
+            - build:
+                source: ansible_log*
+                destination: ''
+            tasks:
+            - exec:
+                arguments:
+                - -c
+                - sh gocd_ft.sh
+                command: /bin/bash
+                # working_directory: gocd_ansible
+                run_if: passed
