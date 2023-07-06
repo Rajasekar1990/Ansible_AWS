@@ -6,12 +6,12 @@ pipelines:
     lock_behavior: unlockWhenFinished
     display_order: -1
     environment_variables:
-      playbook_name: 'ft_playbook_v0.7.yml'
-      archive_flag: 'OFF'
-      file_loc: 'C:\src_loc\'
-      tmp_loc: '/home/ubuntu/ansible/tmp/'
-      target_loc: 'C:\{{ inventory_hostname }}\'
-      file_size: '2k'
+      playbook_name: ft_playbook_v0.7.yml
+      archive_flag: OFF
+      file_loc: C:\src_loc\
+      tmp_loc: /home/ubuntu/ansible/tmp/
+      target_loc: C:\{{ inventory_hostname }}\
+      file_size: 2k
     secure_variables:
     materials:
       git-e912034:
@@ -60,7 +60,7 @@ pipelines:
                 command: /bin/bash
                 run_if: passed
             - exec:
-                arugumets:
+                arguments:
                 - -c
                 - cd /home/ubuntu/ansible
                 command: /bin/bash
