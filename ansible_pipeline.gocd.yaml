@@ -37,7 +37,7 @@ pipelines:
             - exec: 
                 arguments:
                 - -c
-                - echo 'Ready to execute ansible playbook ${Playbook_name} ${Archive_flag} ${File_loc}'
+                - sh gocd_echo.sh
                 command: /bin/bash
                 run_if: passed
             - exec:
