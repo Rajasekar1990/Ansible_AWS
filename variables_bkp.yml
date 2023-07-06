@@ -1,8 +1,8 @@
-archive_flag: ${archive_flag}
-file_loc: ${file_loc}
-tmp_loc: ${tmp_loc}
-target_loc: ${target_loc}
-file_size: ${file_size}
+archive_flag: 'OFF'
+file_loc: 'C:\src_loc\'
+tmp_loc: '/home/ubuntu/ansible/tmp/'
+target_loc: 'C:\{{ inventory_hostname }}\'
+file_size: '2k'
 mssql_login_host: '172.31.45.40'
 mssql_login_user: 'target1'
 mssql_login_password: !vault |
