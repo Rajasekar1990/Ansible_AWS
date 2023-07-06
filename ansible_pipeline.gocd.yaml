@@ -20,7 +20,7 @@ pipelines:
         shallow_clone: false
         auto_update: true
         branch: main
-        encrypted_password: AES:6H8j1ldfMqlLY+zxGdNigQ==:SzWrCDRamRRv49Cv8D8GHA==
+        encrypted_password: AES:WQH55uuvAU04P6mcOGDHVQ==:1Oq0gCH/SNujsfUK0l1zTsQhTmMY1vi/51fdGHseq0Q=
     stages:
     - File_Transfer:
         fetch_materials: true
