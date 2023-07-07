@@ -205,7 +205,6 @@
     file:
       path: '{{ tmp_loc }}/{{ item }}.jar'
       state: absent
-    become: true
     when: 
       - inventory_hostname in groups['localhosts'] 
     with_items:
