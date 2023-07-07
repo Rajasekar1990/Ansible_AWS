@@ -8,9 +8,9 @@
 #To use Makefile variables in Makefile enclose them with ${}
 
 File_Transfer_Playbook:
-	chmod +x sh gocd_ft.sh; \
+	chmod +x gocd_ft.sh; \
 	sh gocd_ft.sh
 
 MSSQL_Db_Ctrllr_Playbook:
-    chmod +x sh gocd_db_ctrllr.sh; \
+	chmod +x gocd_db_ctrllr.sh; \
 	sh gocd_db_ctrllr.sh

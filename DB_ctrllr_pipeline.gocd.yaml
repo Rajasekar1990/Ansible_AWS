@@ -53,7 +53,7 @@ pipelines:
             tasks:
             - exec:
                 arguments:
-                - MSSQL_DB_PLAYBOOK_CTRLLR
+                - MSSQL_Db_Ctrllr_Playbook
                 command: make
                 # working_directory: gocd_ansible
                 run_if: passed
