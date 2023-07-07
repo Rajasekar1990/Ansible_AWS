@@ -28,7 +28,7 @@ pipelines:
         password: AES:tyM62jnM4IMK9AMLfWYHmg==:l8lHguVKMszpxWcJoM3ayA==
         # destination: gocd_ansible
     stages:
-    - File_Transfer:
+    - MSSQL_DB_SQL_Stmts:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -38,7 +38,7 @@ pipelines:
           type: manual
           allow_only_on_success: true
         jobs:
-          Run_FT_Playbook:
+          Run_DB_Playbook:
             timeout: 0
             artifacts:
             - build:
