@@ -8,7 +8,7 @@ pipelines:
     environment_variables:
       Playbook_name: 'ft_playbook_gocd_v0.7.yml'
       Archive_flag: OFF
-      File_loc: 'C:/src_loc/'
+      File_loc: 'C:/src_loc/:'
       Tmp_loc: '/tmp/'
       Target_loc: 'C:/{{ inventory_hostname }}/'
       File_size: '2k'
@@ -63,7 +63,7 @@ pipelines:
             - exec:
                 arguments:
                 - -c
-                - sh gocd_ft.sh 
+                - sh gocd_ft.sh
                 command: /bin/bash
                 # working_directory: gocd_ansible
                 run_if: passed
