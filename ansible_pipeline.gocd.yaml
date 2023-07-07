@@ -63,7 +63,7 @@ pipelines:
             - exec:
                 arguments:
                 - -c
-                - sh gocd_ft.sh
+                - sh gocd_ft.sh 
                 command: /bin/bash
                 # working_directory: gocd_ansible
                 run_if: passed

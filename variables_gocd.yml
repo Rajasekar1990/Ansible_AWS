@@ -1,8 +1,8 @@
-archive_flag: ${Archive_flag}
-file_loc: ${File_loc}
-tmp_loc: ${Tmp_loc}
-target_loc: ${Target_loc}
-file_size: ${File_size}
+archive_flag: "${Archive_flag}"
+file_loc: "${File_loc}"
+tmp_loc: "${Tmp_loc}"
+target_loc: "${Target_loc}"
+file_size: "${File_size}"
 mssql_login_host: '172.31.45.40'
 mssql_login_user: 'target1'
 mssql_login_password: !vault |
