@@ -8,5 +8,5 @@
 #To use Makefile variables in Makefile enclose them with ${}
 
 File_Transfer_Playbook:
-	chmod +x sh gocd_ft.sh; \
+	chmod +x gocd_ft.sh; \
 	sh gocd_ft.sh

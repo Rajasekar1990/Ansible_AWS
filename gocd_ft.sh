@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-echo "## Run File Transfer Ansible-playbook ${Playbook_name} ##"
+echo "##### File Transfer Ansible-playbook: ${Playbook_name} execution started #####"
 ansible-playbook -i inventory_gocd ${Playbook_name} -vv
-echo "## File Transfer Playbook: ${Playbook_name} execution completed ##"
+echo "##### File Transfer Ansible-playbook: ${Playbook_name} execution completed #####"
