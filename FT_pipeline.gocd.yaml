@@ -12,7 +12,7 @@ pipelines:
       Tmp_loc: '/tmp/'
       Target_loc: 'C:/{{ inventory_hostname }}/'
       File_size: '2k'
-      Ansible_logpath: '/ansible_log.log'
+      Ansible_logpath: 'ansible_log.log'
       Vault_password_file: .secrets.yml
     secure_variables:
       Secret_Key: AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
