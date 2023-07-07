@@ -10,3 +10,7 @@
 File_Transfer_Playbook:
 	chmod +x gocd_ft.sh; \
 	sh gocd_ft.sh
+
+MSSQL_DB_PLAYBOOK_CTRLLR:
+    chmod +x gocd_db_ctrllr.sh; \
+	sh gocd_db_ctrllr.sh

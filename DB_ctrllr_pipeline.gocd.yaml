@@ -1,0 +1,58 @@
+format_version: 10
+pipelines:
+  Ansible_MSSQL_DB_CTRLLR:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: unlockWhenFinished
+    display_order: -1
+    environment_variables:
+      Playbook_name: 'mssql_db_run_playbook_gocd_v0.4.1.yml'
+      mssql_login_host: '172.31.45.40'
+      mssql_login_user: 'target1'
+      mssql_db: 'test_db'
+      mssql_port: 1433
+      sql_srcpath: 'sql_stmts/'
+      sql_dirpath: 'sql_results'
+      Ansible_logpath: 'ansible_log.log'
+      Vault_password_file: .secrets.yml
+    secure_variables:
+      Secret_Key: AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
+    materials:
+      git-e912034:
+        git: https://github.com/Rajasekar1990/Ansible_AWS.git
+        username: Rajasekar1990
+        shallow_clone: false
+        auto_update: true
+        branch: main
+        password: AES:tyM62jnM4IMK9AMLfWYHmg==:l8lHguVKMszpxWcJoM3ayA==
+        # destination: gocd_ansible
+    stages:
+    - File_Transfer:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          # type: success
+          # allow_only_on_success: true
+          type: manual
+          allow_only_on_success: true
+        jobs:
+          Run_FT_Playbook:
+            timeout: 0
+            artifacts:
+            - build:
+                source: ansible_log*
+                destination: ''
+            - build:
+                source: sql_stmts*
+                destination: ''
+            - build:
+                source: sql_results*
+                destination: ''
+            tasks:
+            - exec:
+                arguments:
+                - MSSQL_DB_PLAYBOOK_CTRLLR
+                command: make
+                # working_directory: gocd_ansible
+                run_if: passed
