@@ -24,7 +24,7 @@
   # - 
   vars_files:
     - filename_list.yml
-    - variables_gocd.yml
+    - variables.yml
   tasks:
   - name: 'Get current date'
     ansible.builtin.setup:
