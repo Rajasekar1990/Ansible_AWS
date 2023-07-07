@@ -8,9 +8,9 @@ pipelines:
     environment_variables:
       Playbook_name: 'ft_playbook_gocd_v0.7.yml'
       Archive_flag: OFF
-      File_loc: 'C:\src_loc\'
+      File_loc: 'C:/src_loc/'
       Tmp_loc: '/tmp/'
-      Target_loc: 'C:\{{ inventory_hostname }}\'
+      Target_loc: 'C:/{{ inventory_hostname }}/'
       File_size: '2k'
       Ansible_logpath: '/ansible_log.log'
       Vault_password_file: secrets.yml
