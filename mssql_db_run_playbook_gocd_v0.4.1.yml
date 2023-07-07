@@ -39,7 +39,7 @@
   - name: 'Connect MSSQL DB Server'
     shell:
       'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }}'
-    no_log: true
+    no_log: false
     register: connection_check
     when: inventory_hostname in groups['localhosts']
     any_errors_fatal: true
