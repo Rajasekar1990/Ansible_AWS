@@ -63,7 +63,6 @@
       dest: 'filename_list.yml'
       remote_src: false
       local_follow: false
-      become: true
     when: 
       - inventory_hostname in groups['localhosts']
 
@@ -73,7 +72,6 @@
       create: true
       line: '- {{ item.0 }}'
       insertafter: "EOF"
-      become: true
     when: 
       - inventory_hostname in groups['localhosts']
     with_together:
