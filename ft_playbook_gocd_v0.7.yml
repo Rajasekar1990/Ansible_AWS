@@ -46,10 +46,10 @@
       paths: '{{ file_loc }}'
       patterns: [ '*.jar' ]
     register: file_list
-    no_log: false
+    no_log: true
     when: inventory_hostname in groups['remote_servers']
   - debug: var=file_list
-    no_log: false
+    no_log: true
     when: inventory_hostname in groups['remote_servers']
   - debug: msg="filename is {{ item.0}}" 
     when: 
