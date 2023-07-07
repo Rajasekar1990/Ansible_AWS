@@ -6,15 +6,16 @@ pipelines:
     lock_behavior: unlockWhenFinished
     display_order: -1
     environment_variables:
-      # Playbook_name: 'ft_playbook_gocd_v0.7.yml'
-      # Archive_flag: OFF
-      # File_loc: 'C:/src_loc/'
-      # Tmp_loc: '/tmp/'
-      # Target_loc: 'C:/{{ inventory_hostname }}/'
-      # File_size: '2k'
-      # Ansible_logpath: '/ansible_log.log'
-      # Vault_password_file: secrets.yml
+      Playbook_name: 'ft_playbook_gocd_v0.7.yml'
+      Archive_flag: OFF
+      File_loc: 'C:/src_loc/'
+      Tmp_loc: '/tmp/'
+      Target_loc: 'C:/{{ inventory_hostname }}/'
+      File_size: '2k'
+      Ansible_logpath: '/ansible_log.log'
+      Vault_password_file: .secrets.yml
     secure_variables:
+      Secret_Key: AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
     materials:
       git-e912034:
         git: https://github.com/Rajasekar1990/Ansible_AWS.git
@@ -25,32 +26,14 @@ pipelines:
         password: AES:tyM62jnM4IMK9AMLfWYHmg==:l8lHguVKMszpxWcJoM3ayA==
         # destination: gocd_ansible
     stages:
-    # - Agent_Check:
-    #     fetch_materials: true
-    #     keep_artifacts: false
-    #     clean_workspace: false
-    #     approval:
-    #       type: manual
-    #       allow_only_on_success: false
-    #     jobs:
-    #       Agent_validate:
-    #         timeout: 0
-    #         tasks:
-    #         - exec: 
-    #             arguments:
-    #             - -c
-    #             - sh gocd_echo.sh
-    #             command: /bin/bash
-    #             run_if: passed
-    #         - exec:
-    #             command: pwd
-    #             run_if: passed
     - File_Transfer:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
         approval:
-          type: success
+          # type: success
+          # allow_only_on_success: true
+          type: manual
           allow_only_on_success: true
         jobs:
           Run_FT_Playbook:
@@ -59,11 +42,13 @@ pipelines:
             - build:
                 source: ansible_log*
                 destination: ''
+            - build:
+                source: filename_list*
+                destination: ''
             tasks:
             - exec:
                 arguments:
-                - -c
-                - ansible-playbook -i inventory_gocd ft_playbook_gocd_v0.7.yml -vv
-                command: /bin/bash
+                - File_Transfer_Playbook
+                command: make
                 # working_directory: gocd_ansible
                 run_if: passed

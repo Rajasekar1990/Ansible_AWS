@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-echo "## Run File Transfer Ansible-playbook ##"
-sudo ansible-playbook -i inventory_gocd ${Playbook_name} -vv
-echo "## Playbook execution completed ##"
-echo "## print the list of files in the current dir"
-ls -lrat
+echo "## Run File Transfer Ansible-playbook ${Playbook_name} ##"
+ansible-playbook -i inventory_gocd ${Playbook_name} -vv
+echo "## File Transfer Playbook: ${Playbook_name} execution completed ##"
