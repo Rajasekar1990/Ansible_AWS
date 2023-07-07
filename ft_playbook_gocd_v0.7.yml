@@ -60,7 +60,7 @@
   - name: 'Create a dict in filename_list.yml on ansible controller'
     copy:
       content: 'filename:'
-      dest: '/filename_list.yml'
+      dest: 'filename_list.yml'
       remote_src: false
       local_follow: false
       become: true
@@ -69,7 +69,7 @@
 
   - name: 'Add filenames fetched as a list-dict into filename_list.yml on ansible controller'
     lineinfile:
-      path: '/filename_list.yml'
+      path: 'filename_list.yml'
       create: true
       line: '- {{ item.0 }}'
       insertafter: "EOF"
