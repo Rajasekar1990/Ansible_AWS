@@ -63,7 +63,7 @@ pipelines:
             - exec:
                 arguments:
                 - -c
-                - ansible-playbook -i inventory_gocd ${Playbook_name} -vv
+                - ansible-playbook -i inventory_gocd ft_playbook_gocd_v0.7.yml -vv
                 command: /bin/bash
                 # working_directory: gocd_ansible
                 run_if: passed
