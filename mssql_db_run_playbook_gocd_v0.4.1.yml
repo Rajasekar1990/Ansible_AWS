@@ -40,7 +40,6 @@
     shell:
       'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }}'
     no_log: false
-    become_method: su
     become_user: root
     register: connection_check
     when: inventory_hostname in groups['localhosts']
@@ -137,7 +136,6 @@
     shell:
        'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
     register: output
-    become_method: su
     become_user: root
     no_log: true
     when: 
