@@ -50,10 +50,16 @@ pipelines:
             - build:
                 source: sql_results*
                 destination: ''
+            - build:
+                source: sqlfilename_list*
+                destination: ''
             tasks:
             - exec:
-                arguments:
-                - MSSQL_Db_Ctrllr_Playbook
-                command: make
-                # working_directory: gocd_ansible
-                run_if: passed
+                command: whoami
+                runif: passed
+            # - exec:
+            #     arguments:
+            #     - MSSQL_Db_Ctrllr_Playbook
+            #     command: make
+            #     # working_directory: gocd_ansible
+            #     run_if: passed
