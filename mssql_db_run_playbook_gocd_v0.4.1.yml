@@ -105,7 +105,7 @@
   - name: 'Create a dict in sqlfilename_list.yml on ansible controller'
     copy:
       content: 'sqlfilename:'
-      dest: '/home/ubuntu/ansible/sqlfilename_list.yml'
+      dest: 'sqlfilename_list.yml'
       remote_src: false
       local_follow: false
     when: 
@@ -113,7 +113,7 @@
 
   - name: 'Add filenames fetched as a listed-dict into sqlfilename_list.yml on ansible controller'
     lineinfile:
-      path: '/home/ubuntu/ansible/sqlfilename_list.yml'
+      path: 'sqlfilename_list.yml'
       create: true
       line: '- {{ item.0 }}'
       insertafter: "EOF"
