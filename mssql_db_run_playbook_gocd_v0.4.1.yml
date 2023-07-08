@@ -39,12 +39,11 @@
   - name: 'Connect MSSQL DB Server'
     shell:
       '/opt/mssql-tools/bin/sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }}'
-    no_log: false
+    no_log: true
     become_user: root
     register: connection_check
     when: inventory_hostname in groups['localhosts']
-    # any_errors_fatal: true
-    ignore_errors: true
+    any_errors_fatal: true
 
   # - name: 'Check DB connection status'
   #   debug: var=connection_check
@@ -131,7 +130,7 @@
       path: '{{ sql_dirpath }}'
       state: directory
     when: inventory_hostname in groups['localhosts']
-    # any_errors_fatal: true
+    any_errors_fatal: true
     
   - name: 'Execute {{ sqlfilename | replace(".sql", "") }}.sql file'
     shell:

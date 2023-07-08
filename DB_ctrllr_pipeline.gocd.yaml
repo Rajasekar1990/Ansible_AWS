@@ -1,6 +1,6 @@
 format_version: 10
 pipelines:
-  Ansible_MSSQL_DB_CTRLLR:
+  Ansible_Ctrllr_DB_Playbook:
     group: defaultGroup
     label_template: ${COUNT}
     lock_behavior: unlockWhenFinished
@@ -57,7 +57,7 @@ pipelines:
             - exec:
                 arguments:
                 - -c
-                - whoami
+                - echo user logged in as $(whoami)
                 command: /bin/bash
                 runif: passed
             - exec:
