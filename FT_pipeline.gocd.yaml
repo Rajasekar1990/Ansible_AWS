@@ -46,7 +46,7 @@ pipelines:
                 source: filename_list*
                 destination: ''
             tasks:
-             - exec:
+            - exec:
                 arguments:
                 - -c
                 - echo user logged in as $(whoami)
