@@ -44,6 +44,7 @@
     register: connection_check
     when: inventory_hostname in groups['localhosts']
     # any_errors_fatal: true
+    ignore_errors: true
 
   # - name: 'Check DB connection status'
   #   debug: var=connection_check

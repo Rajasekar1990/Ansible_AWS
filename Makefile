@@ -13,4 +13,4 @@ File_Transfer_Playbook:
 
 MSSQL_Db_Ctrllr_Playbook:
 	chmod +x gocd_db_ctrllr.sh; \
-	sh gocd_db_ctrllr.sh
+	bash gocd_db_ctrllr.sh
