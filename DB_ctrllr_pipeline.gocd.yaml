@@ -55,11 +55,8 @@ pipelines:
                 destination: ''
             tasks:
             - exec:
-                command: whoami
-                runif: passed
-            # - exec:
-            #     arguments:
-            #     - MSSQL_Db_Ctrllr_Playbook
-            #     command: make
-            #     # working_directory: gocd_ansible
-            #     run_if: passed
+                arguments:
+                - MSSQL_Db_Ctrllr_Playbook
+                command: make
+                # working_directory: gocd_ansible
+                run_if: passed
