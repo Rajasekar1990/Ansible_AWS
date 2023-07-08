@@ -41,10 +41,11 @@
       'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }}'
     no_log: false
     become: true
+    become_method: su
     become_user: root
     register: connection_check
     when: inventory_hostname in groups['localhosts']
-    any_errors_fatal: false
+    # any_errors_fatal: true
 
   # - name: 'Check DB connection status'
   #   debug: var=connection_check
@@ -131,13 +132,14 @@
       path: '{{ sql_dirpath }}'
       state: directory
     when: inventory_hostname in groups['localhosts']
-    any_errors_fatal: true
+    # any_errors_fatal: true
     
   - name: 'Execute {{ sqlfilename | replace(".sql", "") }}.sql file'
     shell:
        'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
     register: output
     become: true
+    become_method: su
     become_user: root
     no_log: true
     when: 
