@@ -104,7 +104,7 @@
   - name: 'Create a dict in sqlfilename_list.yml on ansible controller'
     copy:
       content: 'sqlfilename:'
-      dest: '/home/ubuntu/ansible/sqlfilename_list.yml'
+      dest: '/home/ubuntu/ansible/working_dir/sqlfilename_list.yml'
       remote_src: false
       local_follow: false
     when: 
@@ -112,7 +112,7 @@
 
   - name: 'Add filenames fetched as a listed-dict into sqlfilename_list.yml on ansible controller'
     lineinfile:
-      path: '/home/ubuntu/ansible/sqlfilename_list.yml'
+      path: '/home/ubuntu/ansible/working_dir/sqlfilename_list.yml'
       create: true
       line: '- {{ item.0 }}'
       insertafter: "EOF"
@@ -130,7 +130,7 @@
     
   - name: 'Execute {{ sqlfilename | replace(".sql", "") }}.sql file'
     win_shell:
-       'Sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
+       'sqlcmd -S {{ mssql_login_host }},{{ mssql_port }} -U {{ mssql_login_user }} -P {{ mssql_login_password }} -i {{ sql_filepath }} -o {{ sql_outputpath }}'
     register: output
     no_log: true
     when: 

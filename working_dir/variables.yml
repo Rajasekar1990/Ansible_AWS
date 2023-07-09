@@ -1,6 +1,6 @@
 archive_flag: 'OFF'
 file_loc: 'C:\src_loc\'
-tmp_loc: '/home/ubuntu/ansible/tmp/'
+tmp_loc: '/home/ubuntu/ansible/working_dir/tmp/'
 # tmp_loc: '/tmp/'
 target_loc: 'C:/{{ inventory_hostname }}/'
 file_size: '2k'
@@ -22,7 +22,7 @@ mssql_port: 1433
 # sql_outputpath: '{{ sql_dirpath }}\{{ item.0 }}_{{ datetime_var.ansible_facts.ansible_date_time.day }}{{ datetime_var.ansible_facts.ansible_date_time.month }}{{ datetime_var.ansible_facts.ansible_date_time.year }}_{{ datetime_var.ansible_facts.ansible_date_time.hour }}{{ datetime_var.ansible_facts.ansible_date_time.minute }}{{ datetime_var.ansible_facts.ansible_date_time.second }}.txt'
 
 ### FOR CONTROLLER ###
-sql_srcpath: '/home/ubuntu/ansible/sql_stmts/'
-sql_dirpath: '/home/ubuntu/ansible/sql_results'
+sql_srcpath: '/home/ubuntu/ansible/working_dir/sql_stmts/'
+sql_dirpath: '/home/ubuntu/ansible/working_dir/sql_results'
 sql_filepath: '{{ sql_srcpath }}/{{ item.0 }}.sql'
 sql_outputpath: '{{ sql_dirpath }}/{{ item.0 }}_{{ datetime_var.ansible_facts.ansible_date_time.day }}{{ datetime_var.ansible_facts.ansible_date_time.month }}{{ datetime_var.ansible_facts.ansible_date_time.year }}_{{ datetime_var.ansible_facts.ansible_date_time.hour }}{{ datetime_var.ansible_facts.ansible_date_time.minute }}{{ datetime_var.ansible_facts.ansible_date_time.second }}.txt'
