@@ -53,6 +53,12 @@ pipelines:
             - build:
                 source: sqlfilename_list*
                 destination: ''
+            - build:
+                source: variables.yml
+                destination: ''
+            - build:
+                source: ansible.cfg
+                destination: ''
             tasks:
             - exec:
                 arguments:
@@ -62,7 +68,12 @@ pipelines:
                 runif: passed
             - exec:
                 arguments:
-                - MSSQL_Db_Ctrllr_Playbook
+                - Db_Variables_Yml_Update
                 command: make
-                # working_directory: gocd_ansible
                 run_if: passed
+            # - exec:
+            #     arguments:
+            #     - MSSQL_Db_Ctrllr_Playbook
+            #     command: make
+            #     # working_directory: gocd_ansible
+            #     run_if: passed

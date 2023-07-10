@@ -45,6 +45,12 @@ pipelines:
             - build:
                 source: filename_list*
                 destination: ''
+             - build:
+                source: variables.yml
+                destination: ''
+            - build:
+                source: ansible.cfg
+                destination: ''
             tasks:
             - exec:
                 arguments:
@@ -54,7 +60,12 @@ pipelines:
                 runif: passed
             - exec:
                 arguments:
-                - File_Transfer_Playbook
+                - FT_Variables_Yml_Update
                 command: make
-                # working_directory: gocd_ansible
                 run_if: passed
+            # - exec:
+            #     arguments:
+            #     - File_Transfer_Playbook
+            #     command: make
+            #     # working_directory: gocd_ansible
+            #     run_if: passed
