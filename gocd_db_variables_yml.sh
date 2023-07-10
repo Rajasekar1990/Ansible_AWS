@@ -25,9 +25,12 @@ variables_yml_sedoutput=$(cat variables_bkp.yml | sed -e "s/mssql_login_host: \(
                                                   -e "s/mssql_login_password: \(.*\)/mssql_login_password: '$mssql_login_password'/g")
 echo "$variables_yml_sedoutput" > variables.yml
 
-ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path=$Ansible_logpath/g" \
-                                              -e "s/vault_password_file=\(.*\)/vault_password_file=$Vault_password_file/g")
+# ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path=$Ansible_logpath/g" \
+#                                               -e "s/vault_password_file=\(.*\)/vault_password_file=$Vault_password_file/g")
+# echo "$ansible_cfg_sedoutput" > ansible.cfg
+
+ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path=$Ansible_logpath/g")
 echo "$ansible_cfg_sedoutput" > ansible.cfg
 
-secrets_yml_sed_output=$(cat .secrets_bkp.yml | sed -e "s/\(.*\)/$Valut_secret_Key/g")
-echo "$secrets_yml_sed_output" > .secrets.yml
+# secrets_yml_sed_output=$(cat .secrets_bkp.yml | sed -e "s/\(.*\)/$Valut_secret_Key/g")
+# echo "$secrets_yml_sed_output" > .secrets.yml
