@@ -19,6 +19,6 @@ Db_Variables_Yml_Update:
 	chmod +x gocd_db_variables_yml.sh; \
 	sh gocd_db_variables_yml.sh
 
-FT_Variables_Yml_Update:
-    chmod +x gocd_ft_variables_yml.sh; \
+FT_Variables_Yml_Update: 
+	chmod +x gocd_ft_variables_yml.sh; \
 	sh gocd_ft_variables_yml.sh
