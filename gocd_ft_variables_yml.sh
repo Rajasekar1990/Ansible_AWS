@@ -21,7 +21,7 @@ variables_yml_sedoutput=$(cat variables_bkp.yml | sed -e "s/archive_flag: \(.*\)
                                                   -e "s/file_size: \(.*\)/file_size: '$File_size'/g")
 echo "$variables_yml_sedoutput" > variables.yml
 
-ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path='$Ansible_logpath'/g" \
-                                              -e "s/vault_password_file=\(.*\)/vault_password_file='$Vault_password_file'/g")
+ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path=$Ansible_logpath/g" \
+                                              -e "s/vault_password_file=\(.*\)/vault_password_file=$Vault_password_file/g")
 
 echo "$ansible_cfg_sedoutput" > ansible.cfg

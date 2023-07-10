@@ -7,7 +7,7 @@ pipelines:
     display_order: -1
     environment_variables:
       Playbook_name: 'ft_playbook_gocd_v0.7.yml'
-      Archive_flag: OFF
+      Archive_flag: 'OFF'
       File_loc: 'C:/src_loc/'
       Tmp_loc: '/tmp/'
       Target_loc: 'C:/{{ inventory_hostname }}/'
