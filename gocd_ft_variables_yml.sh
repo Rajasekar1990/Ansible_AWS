@@ -8,6 +8,7 @@
 # File_size='test_2k'
 # Ansible_logpath='test_ansible_log.log'
 # Vault_password_file='.test_secrets.yml'
+# Valut_Secret_Key=AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
 
 echo 'Updating variables.yml with runtime inputs provided in gocd.yaml envrionment & secure variables'
 escaped_File_loc=$(echo "$File_loc" | sed 's/\//\\\//g')
@@ -23,5 +24,7 @@ echo "$variables_yml_sedoutput" > variables.yml
 
 ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path=$Ansible_logpath/g" \
                                               -e "s/vault_password_file=\(.*\)/vault_password_file=$Vault_password_file/g")
-
 echo "$ansible_cfg_sedoutput" > ansible.cfg
+
+secrets_yml_sed_output=$(cat .secrets_bkp.yml | sed -e "s/\(.*\)/$Valut_Secret_Key/g")
+echo "$secrets_yml_sed_output" > .secrets.yml

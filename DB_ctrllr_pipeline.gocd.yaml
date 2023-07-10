@@ -16,7 +16,7 @@ pipelines:
       Ansible_logpath: 'ansible_log.log'
       Vault_password_file: '.secrets.yml'
     secure_variables:
-      Secret_Key: AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
+      Valut_Secret_Key: AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
       mssql_login_password: AES:2G+TB6ba9zA+B6ejy8NHwQ==:y2aCvK75HxpL1ufbejdnSQ==
     materials:
       git-e912034:
