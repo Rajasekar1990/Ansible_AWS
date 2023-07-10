@@ -13,9 +13,9 @@ pipelines:
       Target_loc: 'C:/{{ inventory_hostname }}/'
       File_size: '2k'
       Ansible_logpath: 'ansible_log.log'
-      Vault_password_file: '.secrets.yml'
+      # Vault_password_file: '.secrets.yml'
     secure_variables:
-      Valut_secret_Key: AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
+      # Valut_secret_Key: AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
     materials:
       git-e912034:
         git: https://github.com/Rajasekar1990/Ansible_AWS.git
