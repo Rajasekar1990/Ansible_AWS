@@ -45,7 +45,7 @@ pipelines:
             - build:
                 source: filename_list*
                 destination: ''
-             - build:
+            - build:
                 source: variables.yml
                 destination: ''
             - build:
