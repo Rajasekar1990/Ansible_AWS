@@ -22,7 +22,7 @@ variables_yml_sedoutput=$(cat variables_bkp.yml | sed -e "s/mssql_login_host: \(
                                                   -e "s/mssql_port: \(.*\)/mssql_port: '$mssql_port'/g" \
                                                   -e "s/sql_srcpath: \(.*\)/sql_srcpath: '$escaped_sql_srcpath'/g" \
                                                   -e "s/sql_dirpath: \(.*\)/sql_dirpath: '$escaped_sql_dirpath'/g" \
-                                                  -e "s/mssql_login_password: \(.*\)\([\\t\\r\\n\\s\\S\]*\)/mssql_login_password: '$mssql_login_password'/g")
+                                                  -e "s/mssql_login_password: \(.*\)/mssql_login_password: '$mssql_login_password'/g")
 echo "$variables_yml_sedoutput" > variables.yml
 
 ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path=$Ansible_logpath/g" \
