@@ -71,9 +71,9 @@ pipelines:
                 - Db_Variables_Yml_Update
                 command: make
                 run_if: passed
-            # - exec:
-            #     arguments:
-            #     - MSSQL_Db_Ctrllr_Playbook
-            #     command: make
-            #     # working_directory: gocd_ansible
-            #     run_if: passed
+            - exec:
+                arguments:
+                - MSSQL_Db_Ctrllr_Playbook
+                command: make
+                # working_directory: gocd_ansible
+                run_if: passed

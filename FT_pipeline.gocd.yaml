@@ -63,9 +63,9 @@ pipelines:
                 - FT_Variables_Yml_Update
                 command: make
                 run_if: passed
-            # - exec:
-            #     arguments:
-            #     - File_Transfer_Playbook
-            #     command: make
-            #     # working_directory: gocd_ansible
-            #     run_if: passed
+            - exec:
+                arguments:
+                - File_Transfer_Playbook
+                command: make
+                # working_directory: gocd_ansible
+                run_if: passed
