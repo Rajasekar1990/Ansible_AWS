@@ -9,7 +9,7 @@
 # sql_dirpath='sql_results'
 # Ansible_logpath='ansible_log.log'
 # Vault_password_file=.secrets.yml
-  Valut_Secret_Key=AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
+# Valut_secret_Key=AES:2cRYJgLsJSi243QsN9eWqQ==:TGoO0cRXhheJGjylX6LZIA==
 # mssql_login_password=AES:2G+TB6ba9zA+B6ejy8NHwQ==:y2aCvK75HxpL1ufbejdnSQ==
 
 echo 'Updating variables.yml with runtime inputs provided in gocd.yaml envrionment & secure variables'
@@ -29,5 +29,5 @@ ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path
                                               -e "s/vault_password_file=\(.*\)/vault_password_file=$Vault_password_file/g")
 echo "$ansible_cfg_sedoutput" > ansible.cfg
 
-secrets_yml_sed_output=$(cat .secrets_bkp.yml | sed -e "s/\(.*\)/$Valut_Secret_Key/g")
+secrets_yml_sed_output=$(cat .secrets_bkp.yml | sed -e "s/\(.*\)/$Valut_secret_Key/g")
 echo "$secrets_yml_sed_output" > .secrets.yml

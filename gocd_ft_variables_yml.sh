@@ -26,5 +26,5 @@ ansible_cfg_sedoutput=$(cat ansible_bkp.cfg | sed -e "s/log_path=\(.*\)/log_path
                                               -e "s/vault_password_file=\(.*\)/vault_password_file=$Vault_password_file/g")
 echo "$ansible_cfg_sedoutput" > ansible.cfg
 
-secrets_yml_sed_output=$(cat .secrets_bkp.yml | sed -e "s/\(.*\)/$Valut_Secret_Key/g")
+secrets_yml_sed_output=$(cat .secrets_bkp.yml | sed -e "s/\(.*\)/$Valut_secret_Key/g")
 echo "$secrets_yml_sed_output" > .secrets.yml
